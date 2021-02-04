@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Projeto backend do sistema de gerenciamento de estabelecimentos gastronômicos Hunood",
   "main": "index.js",
-  "license": "ISC",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "rm -rf dist/ & npm run db & npm run build & node dist/server.js",
