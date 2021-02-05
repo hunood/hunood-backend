@@ -1,19 +1,19 @@
 const { v4: uuidv4 } = require('uuid');
-import { Users } from '../models/User';
+import { User } from '../models';
 
 const UserController = {
-    // async index(req, res) {
-    //     const users = await User.findAll();
+    async index(_, res) {
+        const users = await User.findAll();
 
-    //     return res.json(users);
-    // },
+        return res.json(users);
+    },
 
     async store(req, res) {
         console.log('REQ: ', req.body, 'UUID: ', uuidv4());
         const { name, email } = req.body;
 
 
-        const user = await Users.create({ id: uuidv4(), name, email });
+        const user = await User.create({ id: uuidv4(), name, email });
 
         return res.json(user);
     }

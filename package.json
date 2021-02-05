@@ -2,14 +2,14 @@
   "name": "hunood-backend",
   "version": "1.0.0",
   "description": "Projeto backend do sistema de gerenciamento de estabelecimentos gastronômicos Hunood",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "private": true,
   "scripts": {
     "start": "rm -rf dist/ & npm run db & npm run build & node dist/server.js",
     "build": "tsc --outDir dist/",
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "db": "rm -rf dist/database.js & tsc src/database.ts --outDir dist/ & sequelize db:create & sequelize db:migrate"
+    "db": "rm -rf dist/config.database.js & tsc src/config.database.ts --outDir dist/ & sequelize db:create & sequelize db:migrate"
   },
   "dependencies": {
     "chalk": "^4.1.0",

@@ -1,23 +1,9 @@
-import { languagesTypes } from "./types/languages";
+import { Config } from "./typing/interfaces";
+import { Languages } from "./typing/enums";
 
-interface IConfig {
-    environment: 'prod' | 'dev',
-    language: typeof languagesTypes | string,
-    appName: string,
-    baseUrl: string,
-    port: number,
-    email: {
-        user: string,
-        password: string,
-        service?: string,
-        host?: string,
-        port?: number
-    }
-}
-
-export const config: IConfig = {
+export const config: Config = {
     environment: process.env.ENVIRONMENT === 'prod' ? 'prod' : 'dev',
-    language: languagesTypes.portuguese_br,
+    language: Languages.portuguese_br,
     appName: 'Hunood Backend',
     baseUrl: 'http://localhost:3001',
     port: 3001,
@@ -27,4 +13,3 @@ export const config: IConfig = {
         service: 'Gmail'
     }
 };
-

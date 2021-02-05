@@ -1,23 +1,21 @@
-// const Sequelize = require('sequelize');
-// const chalk = require('chalk');
 import { Sequelize } from 'sequelize';
 import chalk from 'chalk';
-import db from '../database';
-import { Users } from '../models/User';
-
+import db from '../config.database';
 class Connection {
-    _connection;
+    private static conn: Sequelize;
 
-    constructor() {
-        // constructor(database: string, username: string, password?: string, options?: Options);
-        // constructor(database: string, username: string, options?: Options);
-        this._connection = new Sequelize(db as any);
-        this._connection.authenticate()
+    private init() {
+        if (Connection.conn) {
+            return;
+        }
+        Connection.conn = new Sequelize(db);
+        this.authenticate();
+    }
+
+    private authenticate() {
+        Connection.conn.authenticate()
             .then(() => {
                 console.log(chalk.green('DATABASE CONNECTED'), `to port: ${db.port}`);
-
-                Users.init(this.connection);
-
             })
             .catch((error) => {
                 console.log(chalk.red('DATABASE ERROR'));
@@ -27,8 +25,11 @@ class Connection {
     }
 
     get connection() {
-        return this._connection;
+        if (!Connection.conn) {
+            this.init();
+        }
+        return Connection.conn;
     }
 }
 
-export { Connection };
+export const connection = new Connection().connection;
