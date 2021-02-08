@@ -6,8 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "rm -rf dist/ & npm run db & npm run build & node dist/server.js",
-    "build": "tsc --outDir dist/",
+    "start": "npm run db & npm run build & node dist/server.js",
+    "build": "rm -rf dist/ & tsc --outDir dist/ & rm -rf dist/database/migrations",
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
     "db": "rm -rf dist/config.database.js & tsc src/config.database.ts --outDir dist/ & sequelize db:create & sequelize db:migrate"
   },
