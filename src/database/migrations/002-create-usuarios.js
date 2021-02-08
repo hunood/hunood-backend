@@ -16,13 +16,29 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
+      cpf: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       nome: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      genero: {
-        type: Sequelize.STRING,
+      data_nascimento: {
+        type: Sequelize.DATE,
         allowNull: false
+      },
+      genero: {
+        type: Sequelize.ENUM('MASCULINO', 'FEMININO', 'OMITIDO',  'OUTRO'),
+        allowNull: false
+      },
+      genero_personalizado: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      tratar_por: {
+        type: Sequelize.DATE,
+        allowNull: true
       },
       created_at: { 
         type: Sequelize.DATE,

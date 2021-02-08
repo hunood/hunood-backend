@@ -1,15 +1,6 @@
 'use strict';
 
 module.exports = {
-//   id_contato VARCHAR(45) PRIMARY KEY,
-// nome VARCHAR(60),
-// id_tipo_contato VARCHAR(40),
-// id_empresa VARCHAR(40),
-// id_fornecedor VARCHAR(40),
-// FOREIGN KEY(id_empresa) REFERENCES empresas (id_empresa),
-// FOREIGN KEY(id_fornecedor) REFERENCES fornecedores (id_fornecedor)
-// )
-
   up: async (queryInterface, Sequelize) => {
     queryInterface.createTable('tipos-contas', {
       id: {
@@ -21,11 +12,11 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'tipos-contatos', key: 'id' },
+        references: { model: 'tipos-contato', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      id_empresas: {
+      id_empresa: {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
@@ -37,7 +28,15 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'forncedores', key: 'id' },
+        references: { model: 'fornecedores', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION'
+      },
+      id_usuario: {
+        type: Sequelize.UUID,
+        primaryKey: false,
+        allowNull: false,
+        references: { model: 'usuarios', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
