@@ -1,6 +1,22 @@
 import { Sequelize } from 'sequelize';
 import chalk from 'chalk';
 import db from '../config.database';
+import {
+    Autenticacao,
+    Usuario,
+    Empresa,
+    Associado,
+    Fornecedor,
+    Lote,
+    TipoProduto,
+    Produto,
+    Estoque,
+    TipoConta,
+    Caixa,
+    TipoContato,
+    Contato,
+} from '../models';
+import { t } from '../i18n';
 class Connection {
     private static conn: Sequelize;
 
@@ -15,12 +31,24 @@ class Connection {
     private authenticate() {
         Connection.conn.authenticate()
             .then(() => {
-                console.log(chalk.green('DATABASE CONNECTED'), `to port: ${db.port}`);
+                Autenticacao.associate(connection.models);
+                Usuario.associate(connection.models);
+                Empresa.associate(connection.models);
+                Associado.associate(connection.models);
+                Fornecedor.associate(connection.models);
+                Lote.associate(connection.models);
+                TipoProduto.associate(connection.models);
+                Produto.associate(connection.models);
+                Estoque.associate(connection.models);
+                TipoConta.associate(connection.models);
+                Caixa.associate(connection.models);
+                TipoContato.associate(connection.models);
+                Contato.associate(connection.models);
+                console.log(chalk.green(t('messages:banco-inicializado')), t('messages:na-porta', { porta: db.port }));
             })
             .catch((error) => {
-                console.log(chalk.red('DATABASE ERROR'));
                 console.log(JSON.stringify(db));
-                throw `Unable to connect to the database: ${error}`;
+                throw t('messages:banco-nao-inicializado', { erro: error });
             });
     }
 
