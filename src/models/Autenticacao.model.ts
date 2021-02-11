@@ -10,7 +10,7 @@ class Autenticacao extends Model {
     public readonly updatedAt!: Date;
 
     static associate(models){
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
+        this.belongsTo(models.Associado, { foreignKey: 'id', as: 'autentica' });     
     }
 }
 
@@ -26,10 +26,11 @@ Autenticacao.init(
     },
     {
         sequelize: connection,
-        modelName: 'Autenticacao'
+        modelName: 'Autenticacao',
+        tableName: 'autenticacoes'
     }
 );
 
-Autenticacao.associate(connection.models);
+// new Autenticacao();
 
 export { Autenticacao };

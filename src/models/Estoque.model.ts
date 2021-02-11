@@ -30,7 +30,8 @@ Estoque.init(
     },
     {
         sequelize: connection,
-        modelName: 'Estoque'
+        modelName: 'Estoque',
+        tableName: 'estoques'
     }
 );
 

@@ -30,7 +30,8 @@ Contato.init(
     },
     {
         sequelize: connection,
-        modelName: 'Contato'
+        modelName: 'Contato',
+        tableName: 'contatos'
     }
 );
 

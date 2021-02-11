@@ -38,7 +38,8 @@ Produto.init(
     },
     {
         sequelize: connection,
-        modelName: 'Produto'
+        modelName: 'Produto',
+        tableName: 'produtos'
     }
 );
 

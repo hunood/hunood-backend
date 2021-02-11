@@ -12,9 +12,6 @@ import { Caixa } from './Caixa.model';
 import { TipoContato } from './TipoContato.model';
 import { Contato } from './Contato.model';
 
-import { User } from './User.model';
-import { Address } from './Address.model';
-
 export {
     Autenticacao,
     Usuario,
@@ -28,7 +25,5 @@ export {
     TipoConta,
     Caixa,
     TipoContato,
-    Contato,
-    User,
-    Address
+    Contato
 };

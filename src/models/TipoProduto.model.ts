@@ -22,7 +22,8 @@ TipoProduto.init(
     },
     {
         sequelize: connection,
-        modelName: 'TipoProduto'
+        modelName: 'TipoProduto',
+        tableName: 'tipos-produto'
     }
 );
 

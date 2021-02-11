@@ -16,8 +16,8 @@ class Empresa extends Model {
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 
-    static associate(models){
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
+    static associate(models) {
+        // this.belongsTo(models.Associado, { foreignKey: 'id_empresa', as: 'associado' });
     }
 }
 
@@ -40,7 +40,8 @@ Empresa.init(
     },
     {
         sequelize: connection,
-        modelName: 'Empresa'
+        modelName: 'Empresa',
+        tableName: 'empresas'
     }
 );
 

@@ -22,7 +22,8 @@ TipoContato.init(
     },
     {
         sequelize: connection,
-        modelName: 'TipoContato'
+        modelName: 'TipoContato',
+        tableName: 'tipos-contato'
     }
 );
 

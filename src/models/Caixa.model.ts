@@ -32,7 +32,8 @@ Caixa.init(
     },
     {
         sequelize: connection,
-        modelName: 'Caixa'
+        modelName: 'Caixa',
+        tableName: 'caixas'
     }
 );
 

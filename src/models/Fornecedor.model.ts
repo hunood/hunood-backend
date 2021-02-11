@@ -42,7 +42,8 @@ Fornecedor.init(
     },
     {
         sequelize: connection,
-        modelName: 'Fornecedor'
+        modelName: 'Fornecedor',
+        tableName: 'fornecedores'
     }
 );
 

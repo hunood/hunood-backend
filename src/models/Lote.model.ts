@@ -27,7 +27,8 @@ Lote.init(
     },
     {
         sequelize: connection,
-        modelName: 'Lote'
+        modelName: 'Lote',
+        tableName: 'lotes'
     }
 );
 

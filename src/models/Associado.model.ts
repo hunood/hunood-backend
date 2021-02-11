@@ -10,7 +10,8 @@ class Associado extends Model {
     public readonly updatedAt!: Date;
 
     static associate(models){
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
+        this.hasOne(models.Autenticacao, { foreignKey: 'id' })
+        // this.hasOne(models.empresa, { foreignKey: 'id', as: 'empresa' })
     }
 }
 
@@ -26,7 +27,8 @@ Associado.init(
     },
     {
         sequelize: connection,
-        modelName: 'Associado'
+        modelName: 'Associado',
+        tableName: 'associados'
     }
 );
 
