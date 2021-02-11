@@ -15,4 +15,9 @@ interface Config {
     }
 }
 
-export { Config };
+interface Error {
+    code: string,
+    message: string
+}
+
+export { Config, Error };

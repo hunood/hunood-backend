@@ -1,3 +1,7 @@
+enum BaseRoute {
+    authentication = '/authentication'
+}
+
 enum Languages {
     portuguese_br = 'pt_br',
     english = 'en',
@@ -6,4 +10,5 @@ enum Languages {
 
 export {
     Languages,
+    BaseRoute
 }

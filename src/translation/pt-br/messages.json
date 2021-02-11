@@ -1,3 +1,6 @@
 {
-    "sucesso": "Sucesso!"
+    "api-inicializada": "API INICIALIZADA",
+    "banco-inicializado": "BANCO DE DADOS INICIALIZADO",
+    "banco-nao-inicializado": "Não foi possível conectar à base de dados: {{erro}}",
+    "na-porta": "na porta {{porta}}"
 }

@@ -14,7 +14,9 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "express": "^4.17.1",
+    "http-status-codes": "^2.1.4",
     "i18next": "^19.8.4",
+    "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.4.17",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",

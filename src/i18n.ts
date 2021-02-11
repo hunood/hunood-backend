@@ -3,7 +3,8 @@ import i18next from 'i18next';
 
 import {
     // imports pt-br
-    messagesBR
+    messagesBR,
+    errorsBR
 } from './translation';
 
 const options = {
@@ -14,7 +15,8 @@ const options = {
     resources: {
         pt_br: {
             // exports pt-br
-            messages: messagesBR
+            messages: messagesBR,
+            errors: errorsBR,
         }
     }
 };
