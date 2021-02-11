@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'tipos-contas', key: 'id' },
+        references: { model: 'tipos-conta', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
