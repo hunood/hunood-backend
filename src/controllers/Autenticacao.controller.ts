@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';
 import { t } from '../i18n';
 import { Autenticacao } from '../models';
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 
 const AutenticacaoController = {
     async create(req: Request, res: Response) {
@@ -20,13 +20,17 @@ const AutenticacaoController = {
                 return res.status(StatusCodes.OK).json(nova_autenticacao);
             })
             .catch((e) => {
-                return res.status(400).json(error('AUTE0001', t('errors:erro-banco', { message: e.message })))
+                return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE0001', t('errors:erro-banco', { message: e.message })))
             });
 
     },
 
     async find(req: Request, res: Response) {
-        const { id = "00000000-0000-0000-0000-000000000000", email = "" } = req.body;
+        const { id = '00000000-0000-0000-0000-000000000000', email = '' } = req.body;
+
+        if (!uuidValidate(id) || typeof email !== 'string' || id === "00000000-0000-0000-0000-000000000000" && email === '') {
+            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE0002', t('errors:erro-param-invalido')));
+        }
 
         const autenticacao = await Autenticacao.findOne({
             where: {
@@ -38,14 +42,14 @@ const AutenticacaoController = {
             return res.status(StatusCodes.NOT_FOUND).json(error('AUTE0002', t('errors:AUTE0002')));
         }
 
-        return res.status(200).json(autenticacao);
+        return res.status(StatusCodes.OK).json(autenticacao);
     },
 
     async authenticate(req: Request, res: Response) {
         const { email, senha } = req.body;
 
         if (typeof email !== 'string' || typeof senha !== 'string') {
-            return res.status(StatusCodes.FORBIDDEN).json(error('AUTE0003', t('errors:AUTE0003')));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE0003', t('errors:erro-param-invalido')));
         }
 
         const autenticacao = await Autenticacao.findOne({ where: { email } });

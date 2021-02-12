@@ -1,6 +1,7 @@
 {
   "nao-tratado": "Erro não tratado corretamente na aplicação! Retornar tipo 'typing/interfaces/Error'",
-  "erro-banco": "Erro de dados: {{message}}",
+  "erro-banco": "Erro de requisição: {{message}}",
+  "erro-param-invalido": "Parâmetro(s) inválido(s)",
   "AUTE0001": "Email já existente",
   "AUTE0002": "Usuário não encontrado",
   "AUTE0003": "Autenticação inválida"  
