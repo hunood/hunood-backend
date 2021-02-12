@@ -6,9 +6,10 @@ import { t } from '../i18n';
 
 const getResponse = (statusCode: typeof StatusCodes | number, data: any, error?: Error) => {
     if (error) {
-        return error = {
-            message: error?.code ? `${error.code} ${error.message}` : undefined,
-            code: `${statusCode} - ${getReasonPhrase(statusCode as unknown as number)}`,
+        return {
+            code: error.code,
+            message: error.message,
+            status: `${statusCode} - ${getReasonPhrase(statusCode as unknown as number)}`,
         }
     }
 
@@ -40,6 +41,10 @@ const status = (_: Request, res: Response, next: NextFunction) => {
         }
     };
     next();
+}
+
+const tratarErroGenericoBanco = (erro: any) => {
+    return res.status(400).json(error('AUTE0001', t('errors:erro-banco', { message: erro.message })))
 }
 
 export { status, error };
