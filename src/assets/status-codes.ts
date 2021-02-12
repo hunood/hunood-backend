@@ -43,8 +43,4 @@ const status = (_: Request, res: Response, next: NextFunction) => {
     next();
 }
 
-const tratarErroGenericoBanco = (erro: any) => {
-    return res.status(400).json(error('AUTE0001', t('errors:erro-banco', { message: erro.message })))
-}
-
 export { status, error };
