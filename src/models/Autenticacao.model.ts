@@ -8,7 +8,7 @@ class Autenticacao extends Model {
     public email_valido!: boolean;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
+    
     static associate(models){
         this.belongsTo(models.Associado, { foreignKey: 'id', as: 'autentica' });     
     }
@@ -30,7 +30,5 @@ Autenticacao.init(
         tableName: 'autenticacoes'
     }
 );
-
-// new Autenticacao();
 
 export { Autenticacao };

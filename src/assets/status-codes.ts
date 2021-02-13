@@ -31,6 +31,10 @@ const status = (_: Request, res: Response, next: NextFunction) => {
 
         if (res.statusCode >= 400) {
             if (keysOfObj.length >= 2 && keysOfObj[0] === 'code' && keysOfObj[1] === 'message') {
+                if (res.statusCode === 400) {
+                    const split = obj.message.split('of relation');
+                    obj.message = split.length == 2 ? split[0].replace('in column', 'in the') + 'parameter' : obj.message;
+                }
                 json.call(this, getResponse(res.statusCode, undefined, obj));
             }
             else {
