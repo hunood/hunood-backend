@@ -4,5 +4,7 @@
   "erro-param-invalido": "Parâmetro(s) inválido(s)",
   "AUTE0001": "Email já existente",
   "AUTE0002": "Usuário não encontrado",
-  "AUTE0003": "Autenticação inválida"  
+  "AUTE0003": "Autenticação inválida",
+  "USUA0001": "Autenticação não encontrada",
+  "USUA0002": "Usuário já cadastrado"
 }

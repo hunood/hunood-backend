@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';

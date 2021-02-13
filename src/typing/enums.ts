@@ -1,5 +1,6 @@
 enum BaseRoute {
-    authentication = '/authentication'
+    authentication = '/authentication',
+    user = '/user'
 }
 
 enum Languages {
