@@ -17,4 +17,13 @@ const db: Options = {
     }
 };
 
+if(process.env.ENVIRONMENT === 'prod'){
+    db.dialectOptions = {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+}
+
 export = db;
