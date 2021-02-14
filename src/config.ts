@@ -5,8 +5,8 @@ export const config: Config = {
     environment: process.env.ENVIRONMENT === 'prod' ? 'prod' : 'dev',
     language: Languages.portuguese_br,
     appName: 'Hunood Backend',
-    baseUrl: 'http://localhost:3001',
-    port: 3001,
+    baseUrl: process.env.BASEURL || 'http://localhost:3001',
+    port: Number(process.env.PORT) || 3001,
     email: {
         user: 'hunood.web@gmail.com',
         password: 'Hunood@1822',
