@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
+      etepa_onboarding: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       created_at: { 
         type: Sequelize.DATE,
         allowNull: false 

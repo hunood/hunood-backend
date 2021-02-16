@@ -33,11 +33,11 @@ module.exports = {
         allowNull: false
       },
       genero_personalizado: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: true
       },
       tratar_por: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: true
       },
       created_at: { 
