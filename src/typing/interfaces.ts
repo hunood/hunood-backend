@@ -1,11 +1,16 @@
 import { Languages } from './enums';
 
 interface Config {
-    environment: 'prod' | 'dev',
+    environment: 'production' | 'development',
     language: typeof Languages | string,
     appName: string,
     baseUrl: string,
     port: number,
+    redis: {
+        host: string,
+        port: string,
+        password: string
+    },
     email: {
         user: string,
         password: string,
