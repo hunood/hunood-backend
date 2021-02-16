@@ -2,7 +2,6 @@ import Sequelize, { Model } from 'sequelize';
 import { connection } from '../database';
 
 class Associado extends Model {
-    public id!: string;
     public id_autenticacao!: string;
     public id_empresa!: string;
     public usuario_primario!: boolean;
@@ -17,12 +16,14 @@ class Associado extends Model {
 
 Associado.init(
     {
-        id: {
+        id_autenticacao: {
             type: Sequelize.UUID,
             primaryKey: true
         },
-        id_autenticacao: Sequelize.UUID,
-        id_empresa: Sequelize.UUID,
+        id_empresa: {
+            type: Sequelize.UUID,
+            primaryKey: true
+        },
         usuario_primario: Sequelize.BOOLEAN
     },
     {

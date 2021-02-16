@@ -6,11 +6,12 @@ class Autenticacao extends Model {
     public email!: string;
     public senha!: string;
     public email_valido!: boolean;
+    public etepa_onboarding!: number;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     
     static associate(models){
-        this.belongsTo(models.Associado, { foreignKey: 'id', as: 'autentica' });     
+        // this.belongsTo(models.Associado, { foreignKey: 'id', as: 'autentica' });     
     }
 }
 
@@ -22,7 +23,8 @@ Autenticacao.init(
         },
         email: Sequelize.STRING,
         senha: Sequelize.STRING,
-        email_valido: Sequelize.BOOLEAN
+        email_valido: Sequelize.BOOLEAN,
+        etepa_onboarding: Sequelize.INTEGER,
     },
     {
         sequelize: connection,
