@@ -3,14 +3,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.createTable('associados', {
-      id: {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        allowNull: false
-      },
       id_autenticacao: {
         type: Sequelize.UUID,
-        primaryKey: false,
+        primaryKey: true,
         allowNull: false,
         references: { model: 'autenticacoes', key: 'id' },
         onUpdate: 'CASCADE',
@@ -18,7 +13,7 @@ module.exports = {
       },
       id_empresa: {
         type: Sequelize.UUID,
-        primaryKey: false,
+        primaryKey: true,
         allowNull: false,
         references: { model: 'empresas', key: 'id' },
         onUpdate: 'CASCADE',

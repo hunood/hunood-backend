@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet  from 'helmet';
 import chalk from 'chalk';
 import { config } from './config';
 import { router } from './routes';
@@ -6,6 +7,7 @@ import { t } from './i18n';
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(router);
 app.listen(config.port);

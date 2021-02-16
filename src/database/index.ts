@@ -48,7 +48,7 @@ class Connection {
             })
             .catch((error) => {
                 console.log(JSON.stringify(db));
-                throw t('messages:banco-nao-inicializado', { erro: error });
+                console.log(chalk.red(t('messages:banco-nao-inicializado')) + chalk.bgRed(error));
             });
     }
 
