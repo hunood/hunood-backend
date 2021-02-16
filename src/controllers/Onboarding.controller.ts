@@ -22,7 +22,7 @@ const OnboardingController = {
 
             const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body });
 
-            autenticacao.etepa_onboarding = 1;
+            autenticacao.etapa_onboarding = 1;
             autenticacao.save();
 
             return res.status(StatusCodes.OK).json(novo_usuario);
@@ -53,7 +53,7 @@ const OnboardingController = {
                     usuario_primario: true
                 });
 
-                autenticacao.etepa_onboarding = 2;
+                autenticacao.etapa_onboarding = 2;
                 autenticacao.save();
 
                 return res.status(StatusCodes.OK).json(nova_empresa);

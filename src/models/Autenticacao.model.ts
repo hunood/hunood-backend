@@ -6,7 +6,7 @@ class Autenticacao extends Model {
     public email!: string;
     public senha!: string;
     public email_valido!: boolean;
-    public etepa_onboarding!: number;
+    public etapa_onboarding!: number;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     
@@ -24,7 +24,7 @@ Autenticacao.init(
         email: Sequelize.STRING,
         senha: Sequelize.STRING,
         email_valido: Sequelize.BOOLEAN,
-        etepa_onboarding: Sequelize.INTEGER,
+        etapa_onboarding: Sequelize.INTEGER,
     },
     {
         sequelize: connection,

@@ -39,7 +39,7 @@ const AutenticacaoController = {
             return res.status(StatusCodes.OK).json(autenticacao);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE0002', t('errors:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE2002', t('errors:erro-banco', { message: err?.message })));
         }
     },
 

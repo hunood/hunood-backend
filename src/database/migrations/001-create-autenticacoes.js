@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
-      etepa_onboarding: {
+      etapa_onboarding: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
