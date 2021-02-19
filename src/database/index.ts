@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize';
-import chalk from 'chalk';
 import db from '../config.database';
 import {
     Autenticacao,
@@ -16,48 +15,44 @@ import {
     TipoContato,
     Contato,
 } from '../models';
-import { t } from '../i18n';
 class Connection {
-    private static conn: Sequelize;
+    private static instance: Sequelize = null;
 
-    private init() {
-        if (Connection.conn) {
-            return;
+    public static getInstance() {
+        if (!this.instance) {
+            this.instance = new Sequelize(db);
+            this.initAssociations();
         }
-        Connection.conn = new Sequelize(db);
-        this.authenticate();
+        return this.instance;
     }
 
-    private authenticate() {
-        Connection.conn.authenticate()
-            .then(() => {
-                Autenticacao.associate(connection.models);
-                Usuario.associate(connection.models);
-                Empresa.associate(connection.models);
-                Associado.associate(connection.models);
-                Fornecedor.associate(connection.models);
-                Lote.associate(connection.models);
-                TipoProduto.associate(connection.models);
-                Produto.associate(connection.models);
-                Estoque.associate(connection.models);
-                TipoConta.associate(connection.models);
-                Caixa.associate(connection.models);
-                TipoContato.associate(connection.models);
-                Contato.associate(connection.models);
-                console.log(chalk.green(t('messages:banco-inicializado')), t('messages:na-porta', { porta: db.port }));
-            })
-            .catch((error) => {
-                console.log(JSON.stringify(db));
-                console.log(chalk.red(t('messages:banco-nao-inicializado')) + chalk.bgRed(error));
-            });
+    public static async isConnected() {
+        try {
+            await this.instance?.authenticate();
+            return this.instance;
+        } catch (_) {
+            return null;
+        }
     }
 
-    get connection() {
-        if (!Connection.conn) {
-            this.init();
-        }
-        return Connection.conn;
+    private static initAssociations() {
+        this.instance?.authenticate().then(() => {
+            Autenticacao.associate(this.instance.models);
+            Usuario.associate(this.instance.models);
+            Empresa.associate(this.instance.models);
+            Associado.associate(this.instance.models);
+            Fornecedor.associate(this.instance.models);
+            Lote.associate(this.instance.models);
+            TipoProduto.associate(this.instance.models);
+            Produto.associate(this.instance.models);
+            Estoque.associate(this.instance.models);
+            TipoConta.associate(this.instance.models);
+            Caixa.associate(this.instance.models);
+            TipoContato.associate(this.instance.models);
+            Contato.associate(this.instance.models);
+        });
     }
 }
 
-export const connection = new Connection().connection;
+export const connection = Connection.getInstance();
+export const isConnected = Connection.isConnected();

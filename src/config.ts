@@ -1,5 +1,8 @@
 import { Config } from "./typing/interfaces";
 import { Languages } from "./typing/enums";
+import dbconfig from "./config.database";
+
+const REDIS_URL = process.env.REDIS_URL.split(':');
 
 export const config: Config = {
     environment: process.env.ENVIRONMENT === 'production' ? 'production' : 'development',
@@ -7,10 +10,11 @@ export const config: Config = {
     appName: 'Hunood Backend',
     baseUrl: process.env.BASEURL || 'http://localhost:3001/',
     port: Number(process.env.PORT) || 3001,
+    database: dbconfig,
     redis: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT,
-        password: process.env.REDIS_PASSWORD
+        password: REDIS_URL[2].split('@')[0],
+        host: REDIS_URL[2].split('@')[1],
+        port: Number(REDIS_URL[3].split('/')[0]),
     },
     email: {
         user: process.env.EMAIL_USER,

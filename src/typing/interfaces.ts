@@ -1,4 +1,5 @@
 import { Languages } from './enums';
+import { Options } from 'sequelize';
 
 interface Config {
     environment: 'production' | 'development',
@@ -6,9 +7,10 @@ interface Config {
     appName: string,
     baseUrl: string,
     port: number,
+    database: Options,
     redis: {
         host: string,
-        port: string,
+        port: number,
         password: string
     },
     email: {

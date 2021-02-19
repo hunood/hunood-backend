@@ -1,6 +1,12 @@
 {
-    "api-inicializada": "API INICIALIZADA",
     "banco-inicializado": "BANCO DE DADOS INICIALIZADO",
-    "banco-nao-inicializado": "Não foi possível conectar à base de dados: {{erro}}",
+    "banco-nao-inicializado": "Banco de dados não inicializado: {{erro}}",
+    
+    "redis-inicializado": "REDIS INICIALIZADO",
+    "redis-nao-inicializado": "Redis não inicializado: {{erro}}",
+
+    "api-inicializada": "API INICIALIZADA",
+    "api-nao-inicializada": "API não inicializada",
+    
     "na-porta": "na porta {{porta}}"
 }
