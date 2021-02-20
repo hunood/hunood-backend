@@ -11,13 +11,13 @@ const OnboardingController = {
             const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
 
             if (!autenticacao) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1001', t('errors:ONBO1001')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1001', t('codes:ONBO1001')));
             }
 
             const usuario = await Usuario.findOne({ where: { cpf: req.body.cpf } })
 
             if (usuario) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1002', t('errors:ONBO1002')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1002', t('codes:ONBO1002')));
             }
 
             const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body });
@@ -29,7 +29,7 @@ const OnboardingController = {
 
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO1003', t('errors:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO1003', t('messages:erro-banco', { message: err?.message })));
         };
     },
 
@@ -37,12 +37,12 @@ const OnboardingController = {
         try {
             const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
             if (!autenticacao) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2001', t('errors:ONBO2001')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2001', t('codes:ONBO2001')));
             }
 
             const empresa = await Empresa.findOne({ where: { cnpj: req.body.cnpj } })
             if (empresa) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2002', t('errors:ONBO2002')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2002', t('codes:ONBO2002')));
             }
 
             const nova_empresa = await Empresa.create({ id: uuidv4(), ...req.body });
@@ -60,7 +60,7 @@ const OnboardingController = {
             }
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO2003', t('errors:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO2003', t('messages:erro-banco', { message: err?.message })));
         };
     }
 };

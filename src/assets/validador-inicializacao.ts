@@ -1,10 +1,13 @@
 import { isConnected } from '../database';
 import { config } from '../config';
-import { redis } from './redis';
 import { t } from '../i18n';
+import { createClient } from 'redis';
 import chalk from 'chalk';
 
+
 export const validarInicializacoes = async () => {
+    const redis = createClient(config.redis);
+
     redis.on('connect', async () => {
         try {
             if (await isConnected) {
@@ -20,6 +23,6 @@ export const validarInicializacoes = async () => {
     });
 
     redis.on('error', () => {
-        console.log(chalk.red(t('messages:api-inicializada')), t('messages:na-porta', { porta: config.port }));
+        console.log(chalk.red(t('messages:redis-nao-inicializado')));
     });
 }

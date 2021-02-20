@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { BaseRoute } from './typing/enums';
-import { status } from './assets/status-codes';
+import { status, verifyJWT } from './assets/status-codes';
 import { routerDev } from './assets/router-dev';
 
 import {
@@ -21,7 +21,7 @@ router.post(BaseRoute.authentication + '/create', AutenticacaoController.create)
 router.post(BaseRoute.authentication + '/find', AutenticacaoController.find);
 
 // Business
-router.post(BaseRoute.business + '/find', EmpresaController.find);
+router.post(BaseRoute.business + '/find', verifyJWT, EmpresaController.find);
 
 // Onboarding
 router.post(BaseRoute.onboarding + '/user', OnboardingController.user);

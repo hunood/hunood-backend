@@ -1,5 +1,6 @@
 import { Languages } from './enums';
 import { Options } from 'sequelize';
+import { Algorithm } from 'jsonwebtoken';
 
 interface Config {
     environment: 'production' | 'development',
@@ -12,6 +13,11 @@ interface Config {
         host: string,
         port: number,
         password: string
+    },
+    jwt: {
+        secret: string,
+        expiresIn: number,
+        algorithm?: Algorithm
     },
     email: {
         user: string,

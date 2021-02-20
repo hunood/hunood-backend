@@ -1,12 +1,16 @@
 {
-    "banco-inicializado": "BANCO DE DADOS INICIALIZADO",
-    "banco-nao-inicializado": "Banco de dados não inicializado: {{erro}}",
-    
-    "redis-inicializado": "REDIS INICIALIZADO",
-    "redis-nao-inicializado": "Redis não inicializado: {{erro}}",
+  "banco-inicializado": "BANCO DE DADOS INICIALIZADO",
+  "banco-nao-inicializado": "BANCO DE DADOS DESCONECTADO: {{erro}}",
 
-    "api-inicializada": "API INICIALIZADA",
-    "api-nao-inicializada": "API não inicializada",
-    
-    "na-porta": "na porta {{porta}}"
+  "redis-inicializado": "REDIS INICIALIZADO",
+  "redis-nao-inicializado": "REDIS DESCONECTADO: {{erro}}",
+
+  "api-inicializada": "API INICIALIZADA",
+  "api-nao-inicializada": "API COM FALHA, VERIFIQUE TODAS AS CONEXÕES.",
+
+  "na-porta": "na porta {{porta}}",
+
+  "nao-tratado": "Erro não tratado corretamente na aplicação! Retornar tipo 'typing/interfaces/Error'",
+  "erro-banco": "Erro de requisição: {{message}}",
+  "erro-param-invalido": "Parâmetro(s) inválido(s)"
 }

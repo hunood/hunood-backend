@@ -12,20 +12,20 @@ const UsuarioController = {
             const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
 
             if (!autenticacao) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1001', t('errors:USUA1001')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1001', t('codes:USUA1001')));
             }
 
             const usuario = await Usuario.findOne({ where: { cpf: req.body.cpf } })
 
             if (usuario) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1002', t('errors:USUA1002')));
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1002', t('codes:USUA1002')));
             }
 
             const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body })
             return res.status(StatusCodes.OK).json(novo_usuario);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA1003', t('errors:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA1003', t('messages:erro-banco', { message: err?.message })));
         };
     },
 
@@ -39,13 +39,13 @@ const UsuarioController = {
             const usuario = await Usuario.findOne({ where: { [Op.or]: [{ id }, { cpf }] } });
 
             if (!usuario) {
-                return res.status(StatusCodes.NOT_FOUND).json(error('USUA2001', t('errors:USUA2001')));
+                return res.status(StatusCodes.NOT_FOUND).json(error('USUA2001', t('codes:USUA2001')));
             }
 
             return res.status(StatusCodes.OK).json(usuario);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA2002', t('errors:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA2002', t('messages:erro-banco', { message: err?.message })));
         }
     }
 };

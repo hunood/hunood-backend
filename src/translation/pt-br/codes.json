@@ -1,17 +1,17 @@
-{
-  "nao-tratado": "Erro não tratado corretamente na aplicação! Retornar tipo 'typing/interfaces/Error'",
-  "erro-banco": "Erro de requisição: {{message}}",
-  "erro-param-invalido": "Parâmetro(s) inválido(s)",
+{  
+  "TOKE1001": "Token JWT não fornecido",
+  "TOKE1002": "Token JWT expirado ou inválido",
 
   "AUTE1001": "Email já existente",
   "AUTE2001": "Usuário não encontrado",
   "AUTE3001": "Autenticação inválida",
+  "AUTE3002": "Não foi possível registrar o token JWT",
 
   "USUA1001": "Autenticação não encontrada",
   "USUA1002": "Usuário já cadastrado",
   "USUA2001": "Usuário não encontrado",
 
-  "EMPR1001": "Empresa já cadastrada",
+  "EMPR1001": "Empresa não encontrada",
 
   "ONBO1001": "Autenticação inválida",
   "ONBO1002": "Usuário já cadastrado",
