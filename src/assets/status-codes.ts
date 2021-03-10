@@ -60,7 +60,7 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
 
         jwt.verify(token, config.jwt.secret, function (err, decoded: { id: string }) {
 
-            if (err || decoded.id !== jwt_redis) {
+            if (err || decoded?.id !== jwt_redis) {
                 return res.status(StatusCodes.UNAUTHORIZED).json(error('TOKE1002', t('codes:TOKE1002')));
             }
 
