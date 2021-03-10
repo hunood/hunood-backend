@@ -11,10 +11,6 @@ class Caixa extends Model {
     public observacoes!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Caixa.init(
@@ -36,7 +32,5 @@ Caixa.init(
         tableName: 'caixas'
     }
 );
-
-Caixa.associate(connection.models);
 
 export { Caixa };

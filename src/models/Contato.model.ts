@@ -10,10 +10,6 @@ class Contato extends Model {
     public nome!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Contato.init(
@@ -34,7 +30,5 @@ Contato.init(
         tableName: 'contatos'
     }
 );
-
-Contato.associate(connection.models);
 
 export { Contato };

@@ -2,7 +2,8 @@ enum BaseRoute {
     authentication = '/authentication',
     business = '/business',
     onboarding = '/onboarding',
-    user = '/user'
+    user = '/user',
+    cep = '/cep',
 }
 
 enum Languages {

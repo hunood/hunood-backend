@@ -6,10 +6,6 @@ class TipoProduto extends Model {
     public nome!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 TipoProduto.init(
@@ -26,7 +22,5 @@ TipoProduto.init(
         tableName: 'tipos-produto'
     }
 );
-
-TipoProduto.associate(connection.models);
 
 export { TipoProduto };

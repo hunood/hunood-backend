@@ -14,10 +14,6 @@ class Produto extends Model {
     public perecivel!: boolean;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Produto.init(
@@ -42,7 +38,5 @@ Produto.init(
         tableName: 'produtos'
     }
 );
-
-Produto.associate(connection.models);
 
 export { Produto };

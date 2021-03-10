@@ -7,11 +7,6 @@ class Associado extends Model {
     public usuario_primario!: boolean;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models){
-        this.hasOne(models.Autenticacao, { foreignKey: 'id' })
-        // this.hasOne(models.empresa, { foreignKey: 'id', as: 'empresa' })
-    }
 }
 
 Associado.init(
@@ -32,7 +27,5 @@ Associado.init(
         tableName: 'associados'
     }
 );
-
-Associado.associate(connection.models);
 
 export { Associado };

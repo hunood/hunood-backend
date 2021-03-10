@@ -9,10 +9,6 @@ class Autenticacao extends Model {
     public etapa_onboarding!: number;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-    
-    static associate(models){
-        // this.belongsTo(models.Associado, { foreignKey: 'id', as: 'autentica' });     
-    }
 }
 
 Autenticacao.init(

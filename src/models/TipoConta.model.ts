@@ -6,10 +6,6 @@ class TipoConta extends Model {
     public nome!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 TipoConta.init(
@@ -26,7 +22,5 @@ TipoConta.init(
         tableName: 'tipos-conta'
     }
 );
-
-TipoConta.associate(connection.models);
 
 export { TipoConta };

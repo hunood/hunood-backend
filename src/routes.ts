@@ -7,7 +7,8 @@ import {
     AutenticacaoController,
     EmpresaController,
     OnboardingController,
-    UsuarioController
+    UsuarioController,
+    CEPController
 } from './controllers'
 
 const router = Router();
@@ -30,5 +31,8 @@ router.post(BaseRoute.onboarding + '/business', OnboardingController.business);
 // User
 router.post(BaseRoute.user + '/create', UsuarioController.create);
 router.post(BaseRoute.user + '/find', UsuarioController.find);
+
+// CEP
+router.get(BaseRoute.cep + '/find/:cep', CEPController.find);
 
 export { router }

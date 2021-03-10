@@ -15,10 +15,6 @@ class Empresa extends Model {
     public estado_logradouro!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.Associado, { foreignKey: 'id_empresa', as: 'associado' });
-    }
 }
 
 Empresa.init(
@@ -44,7 +40,5 @@ Empresa.init(
         tableName: 'empresas'
     }
 );
-
-Empresa.associate(connection.models);
 
 export { Empresa };

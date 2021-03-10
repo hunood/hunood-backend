@@ -10,10 +10,6 @@ class Estoque extends Model {
     public data_saida!: Date;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Estoque.init(
@@ -34,7 +30,5 @@ Estoque.init(
         tableName: 'estoques'
     }
 );
-
-Estoque.associate(connection.models);
 
 export { Estoque };

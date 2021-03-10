@@ -21,7 +21,8 @@ const UsuarioController = {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1002', t('codes:USUA1002')));
             }
 
-            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body })
+            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body });
+
             return res.status(StatusCodes.OK).json(novo_usuario);
         }
         catch (err) {

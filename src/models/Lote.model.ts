@@ -8,10 +8,6 @@ class Lote extends Model {
     public observacoes!: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models){
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Lote.init(
@@ -31,7 +27,5 @@ Lote.init(
         tableName: 'lotes'
     }
 );
-
-Lote.associate(connection.models);
 
 export { Lote };

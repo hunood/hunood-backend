@@ -12,10 +12,6 @@ class Usuario extends Model {
     public tratar_por: string;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
-
-    static associate(models) {
-        // this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user'});
-    }
 }
 
 Usuario.init(
@@ -41,7 +37,5 @@ Usuario.init(
         tableName: 'usuarios'
     }
 );
-
-Usuario.associate(connection.models);
 
 export { Usuario };

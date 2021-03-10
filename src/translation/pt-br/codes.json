@@ -16,5 +16,9 @@
   "ONBO1001": "Autenticação inválida",
   "ONBO1002": "Usuário já cadastrado",
   "ONBO2001": "Autenticação inválida",
-  "ONBO2002": "Empresa já cadastrada"
+  "ONBO2002": "Empresa já cadastrada",
+
+  "CODP1001": "Código postal não encontrado",
+  "CODP1002": "Requisição inválida",
+  "CODP1003": "Erro na requisição de serviço terceiro"
 }
