@@ -8,7 +8,7 @@ import { Associado, Autenticacao, Empresa, Usuario } from '../models';
 const OnboardingController = {
     async user(req: Request, res: Response) {
         try {
-            const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
+            const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
 
             if (!autenticacao) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1001', t('codes:ONBO1001')));
@@ -29,20 +29,22 @@ const OnboardingController = {
 
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO1003', t('messages:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO1003', t('messages:erro-interno', { message: err?.message })));
         };
     },
 
     async business(req: Request, res: Response) {
         try {
-            const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
+            const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
             if (!autenticacao) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2001', t('codes:ONBO2001')));
             }
 
-            const empresa = await Empresa.findOne({ where: { cnpj: req.body.cnpj } })
-            if (empresa) {
-                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2002', t('codes:ONBO2002')));
+            if (req.body.cnpj) {
+                const empresa = await Empresa.findOne({ where: { cnpj: req.body.cnpj } })
+                if (empresa) {
+                    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO2002', t('codes:ONBO2002')));
+                }
             }
 
             const nova_empresa = await Empresa.create({ id: uuidv4(), ...req.body });
@@ -60,7 +62,7 @@ const OnboardingController = {
             }
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO2003', t('messages:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO2003', t('messages:erro-interno', { message: err?.message })));
         };
     }
 };

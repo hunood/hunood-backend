@@ -9,7 +9,7 @@ import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 const UsuarioController = {
     async create(req: Request, res: Response) {
         try {
-            const autenticacao = await Autenticacao.findByPk(req.body.id_autenticacao);
+            const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
 
             if (!autenticacao) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1001', t('codes:USUA1001')));
@@ -26,7 +26,7 @@ const UsuarioController = {
             return res.status(StatusCodes.OK).json(novo_usuario);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA1003', t('messages:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA1003', t('messages:erro-interno', { message: err?.message })));
         };
     },
 
@@ -46,7 +46,7 @@ const UsuarioController = {
             return res.status(StatusCodes.OK).json(usuario);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA2002', t('messages:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA2002', t('messages:erro-interno', { message: err?.message })));
         }
     }
 };

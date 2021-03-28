@@ -3,15 +3,25 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { config } from './config';
 import { router } from './routes';
-import { validarInicializacoes } from './assets/validador-inicializacao';
+import { validarInicializacoes } from './assets/validador-inicializacao'; 
+import { Util } from './assets/utils';
 
 const app = express();
 
-validarInicializacoes()
+validarInicializacoes();
 
-app.use(cors());
+app.use(cors({
+    exposedHeaders: ['Authorization', 'Refresh-Authorization']
+}));
+
 app.use(helmet());
 app.use(express.json());
+
+app.use((req, _, next) => { 
+    req.body = Util.attributesCamelToSnakeCase<any>(req.body);
+    next()
+})
+
 app.use(router);
 
 app.listen(config.port);

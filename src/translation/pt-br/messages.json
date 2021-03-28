@@ -11,6 +11,8 @@
   "na-porta": "na porta {{porta}}",
 
   "nao-tratado": "Erro não tratado corretamente na aplicação! Retornar tipo 'typing/interfaces/Error'",
-  "erro-banco": "Erro de requisição: {{message}}",
-  "erro-param-invalido": "Parâmetro(s) inválido(s)"
+  "erro-interno": "Erro interno: {{message}}",
+  "erro-param-invalido": "Parâmetro(s) inválido(s)",
+
+  "falha-email": "Falha ao enviar e-mail."
 }

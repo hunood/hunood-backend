@@ -1,4 +1,3 @@
-import { Algorithm } from "jsonwebtoken";
 import { Config } from "./typing/interfaces";
 import { Languages } from "./typing/enums";
 import dbconfig from "./config.database";
@@ -17,9 +16,10 @@ export const config: Config = {
         host: REDIS_URL[2].split('@')[1],
         port: Number(REDIS_URL[3].split('/')[0]),
     },
-    jwt: {
-        secret: process.env.JWT_SECRET,
-        expiresIn: Number(process.env.JWT_EXPIRES_IN) || 43200
+    auth: {
+        expiresIn: Number(process.env.JWT_EXPIRES_IN),
+        salt: Number(process.env.JWT_SALT),
+        password: process.env.JWT_PASSWORD
     },
     email: {
         user: process.env.EMAIL_USER,

@@ -14,15 +14,16 @@ interface Config {
         port: number,
         password: string
     },
-    jwt: {
-        secret: string,
+    auth: {
         expiresIn: number,
+        salt: number,
+        password: string,
         algorithm?: Algorithm
     },
     email: {
         user: string,
         password: string,
-        service?: string,
+        service: string,
         host?: string,
         port?: number
     }

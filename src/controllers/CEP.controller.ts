@@ -32,10 +32,10 @@ const CEPController = {
             return res.status(StatusCodes.OK).json(dados_logradouro.data);
         }
         catch (err) {
-            if (err.response.status === StatusCodes.BAD_REQUEST ){
+            if (err?.response?.status === StatusCodes.BAD_REQUEST ){
                 return  res.status(StatusCodes.BAD_REQUEST).json(error('CODP1002', t('codes:CODP1002')));
             }
-            return  res.status(StatusCodes.BAD_REQUEST).json(error('CODP1003', t('codes:CODP1003')));
+            return  res.status(StatusCodes.SERVICE_UNAVAILABLE).json(error('CODP1003', t('codes:CODP1003')));
         };
     },
 };

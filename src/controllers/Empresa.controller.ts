@@ -23,7 +23,7 @@ const EmpresaController = {
             return res.status(StatusCodes.OK).json(empresa);
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('EMPR1002', t('messages:erro-banco', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('EMPR1002', t('messages:erro-interno', { message: err?.message })));
         }
     }
 };
