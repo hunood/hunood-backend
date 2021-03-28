@@ -2,6 +2,10 @@
   "TOKE1001": "Token JWT não fornecido.",
   "TOKE1002": "Token JWT expirado ou inválido.",
 
+  "MTOK1001": "Autenticação inválida.",
+  "MTOK2001": "Token Bearer não enviado.",
+  "MTOK3001": "Token Basic não enviado.",
+
   "AUTE1001": "Email já existente.",
   "AUTE2001": "Autenticação inválida.",
   "AUTE3001": "Usuário não encontrado.",
