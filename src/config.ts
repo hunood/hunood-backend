@@ -2,7 +2,7 @@ import { Config } from "./typing/interfaces";
 import { Languages } from "./typing/enums";
 import dbconfig from "./config.database";
 
-const REDIS_URL = process.env.REDIS_URL.split(':');
+const REDIS_URL = process.env.REDISCLOUD_URL.split(':');
 
 export const config: Config = {
     environment: process.env.ENVIRONMENT === 'production' ? 'production' : 'development',
