@@ -20,8 +20,8 @@ router.use(routerDev);
 // Authentication
 router.post(BaseRoute.authentication, AutenticacaoController.authenticate);
 router.post(BaseRoute.authentication + '/forbid', AutenticacaoController.forbid);
+router.post(BaseRoute.authentication + '/create', AutenticacaoController.create);
 router.post(BaseRoute.authentication + '/refresh', autenticacao.refresh, AutenticacaoController.refresh);
-router.post(BaseRoute.authentication + '/create', [autenticacao.bearer], AutenticacaoController.create);
 router.post(BaseRoute.authentication + '/find', [autenticacao.bearer], AutenticacaoController.find);
 router.post(BaseRoute.authentication + '/sendcode', [autenticacao.bearer], AutenticacaoController.sendEmailCode);
 router.post(BaseRoute.authentication + '/verificationcode', AutenticacaoController.verificationEmailCode);
