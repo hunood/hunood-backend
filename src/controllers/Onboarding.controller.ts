@@ -8,6 +8,7 @@ import { Associado, Autenticacao, Empresa, Usuario } from '../models';
 const OnboardingController = {
     async user(req: Request, res: Response) {
         try {
+            const id_autenticacao = (req as any)?.auth?.id;
             const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
 
             if (!autenticacao) {
@@ -20,7 +21,7 @@ const OnboardingController = {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1002', t('codes:ONBO1002')));
             }
 
-            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body });
+            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body, id_autenticacao });
 
             autenticacao.etapa_onboarding = 1;
             autenticacao.save();
