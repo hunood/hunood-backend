@@ -24,8 +24,9 @@ interface Config {
         user: string,
         password: string,
         service: string,
-        host?: string,
-        port?: number
+        host: string,
+        port: number,
+        secure: boolean
     }
 }
 

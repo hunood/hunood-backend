@@ -33,6 +33,9 @@ export class Email implements Provedor {
     constructor() {
         this.transporter = nodemailer.createTransport(smtpTransport({
             service: config.email.service.toString(),
+            host: config.email.host,
+            port: config.email.user,
+            secure: config.email.secure,
             auth: {
                 user: config.email.user.toString(),
                 pass: config.email.password.toString()
