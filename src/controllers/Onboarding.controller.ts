@@ -8,7 +8,6 @@ import { Email } from '../assets/email';
 import { config } from '../config';
 import { getHTMLVerificationCode } from '../assets/html/verificationCode';
 import tokens from '../assets/token-authentication/tokens';
-import crypto from 'crypto';
 
 const OnboardingController = {
     async user(req: Request, res: Response) {
