@@ -5,6 +5,7 @@ import { config } from '../../config';
 
 import { allowlistRefreshToken } from '../redis-manager/allowlist-refresh-token';
 import { blocklistAccessToken } from '../redis-manager/blocklist-access-token';
+import { allowlistEmailToken } from '../redis-manager/allowlist-email-token';
 
 function criaTokenJWT(id: string, [tempoQuantidade, tempoUnidade]) {
   const payload = { id };
@@ -73,11 +74,28 @@ async function invalidaTokenOpaco(token: string, allowlist: typeof allowlistRefr
   await allowlist.deleta(token);
 }
 
+async function criaTokenEmail(id: string, [tempoQuantidade, tempoUnidade], allowlist: typeof allowlistRefreshToken) {
+  const tokenEmail = crypto.randomInt(100001, 999999).toString();
+  const dataExpiracao = moment().add(tempoQuantidade, tempoUnidade).unix();
+  await allowlist.deleta(id);
+  await allowlist.adiciona(id, tokenEmail, dataExpiracao);
+  return tokenEmail;
+}
+
+async function verificaTokenEmail(id: string, token: string, allowlist: typeof allowlistRefreshToken) {
+  const code = await allowlist.buscaValor(id);
+  return code === token;
+}
+
+async function invalidaTokenEmail(id: string, allowlist: typeof allowlistRefreshToken) {
+  await allowlist.deleta(id);
+}
+
 export default {
   access: {
     nome: 'Access token',
-    lista: blocklistAccessToken,
     expiracao: [25, 'minutes'],
+    lista: blocklistAccessToken,
     cria(id: string) {
       return criaTokenJWT(id, this.expiracao);
     },
@@ -90,8 +108,8 @@ export default {
   },
   refresh: {
     nome: 'Refresh token',
-    lista: allowlistRefreshToken,
     expiracao: [4, 'hours'],
+    lista: allowlistRefreshToken,
     async cria(id: string) {
       return criaTokenOpaco(id, this.expiracao, this.lista);
     },
@@ -100,6 +118,20 @@ export default {
     },
     async invalida(token: string) {
       return invalidaTokenOpaco(token, this.lista);
+    }
+  },
+  email: {
+    nome: 'Email token',
+    expiracao: [1, 'h'],
+    lista: allowlistEmailToken,
+    async cria(id: string) {
+      return criaTokenEmail(id, this.expiracao, this.lista);
+    },
+    async verifica(id: string, token: string) {
+      return verificaTokenEmail(id, token, this.lista);
+    },
+    async invalida(id: string) {
+      return invalidaTokenEmail(id, this.lista);
     }
   }
 };

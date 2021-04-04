@@ -23,6 +23,11 @@
   "ONBO1002": "Usuário já cadastrado.",
   "ONBO2001": "Autenticação inválida.",
   "ONBO2002": "Empresa já cadastrada.",
+  "ONBO3001": "Parâmetro não enviado.",
+  "ONBO3002": "Autenticação inválida.",
+  "ONBO4001": "Parâmetro não enviado.",
+  "ONBO4002": "Autenticação inválida.",
+  "ONBO4003": "Código inválido.",
 
   "CODP1001": "Código postal não encontrado.",
   "CODP1002": "Requisição inválida.",

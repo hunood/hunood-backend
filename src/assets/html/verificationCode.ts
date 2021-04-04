@@ -1,6 +1,6 @@
 import { config } from "../../config";
 
-export const getHTMLVerificationCode = () => {
+export const getHTMLVerificationCode = (code: string) => {
 
     return (`
     <!DOCTYPE html>
@@ -148,7 +148,7 @@ export const getHTMLVerificationCode = () => {
                                                     <tr>
                                                         <td align="center" style="border-radius: 3px;" bgcolor="#FF5100">
                                                             <p style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #FF5100; display: inline-block;">
-                                                                ${'CODIGO123'}
+                                                                ${code}
                                                             </p>
                                                         </td>
                                                     </tr>
@@ -161,7 +161,7 @@ export const getHTMLVerificationCode = () => {
                             <tr>
                                 <td bgcolor="#ffffff" align="left"
                                     style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 1em; font-weight: 400; line-height: 25px;">
-                                    <p style="margin: 0;">${'Copie o código acima e o insira na plataforma ou clique no link abaixo para validar sua conta conosco.'}</p>
+                                    <p style="margin: 0;">${'Copie o código acima e o insira na plataforma ou clique no link abaixo para validar sua conta conosco. Este código expirará em 1h.'}</p>
                                 </td>
                             </tr> <!-- COPY -->
                             <tr>

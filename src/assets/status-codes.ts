@@ -17,7 +17,7 @@ const getResponse = (statusCode: typeof StatusCodes | number, data: any, error?:
         }
 
         return {
-            message: error.message,
+            message: error.code.split('AUTE')[1] === 'AUTE' ? t('messages:autenticacao-invalida') : error.message,
             error: true
         }
     }

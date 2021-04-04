@@ -32,6 +32,8 @@ router.post(BaseRoute.business + '/find', EmpresaController.find);
 // Onboarding
 router.post(BaseRoute.onboarding + '/user', [autenticacao.bearer], OnboardingController.user);
 router.post(BaseRoute.onboarding + '/business', [autenticacao.bearer], OnboardingController.business);
+router.post(BaseRoute.onboarding + '/sendCode', [autenticacao.bearer], OnboardingController.sendCode);
+router.post(BaseRoute.onboarding + '/verificationCode', [autenticacao.bearer], OnboardingController.verificationCode);
 
 // User
 router.post(BaseRoute.user + '/create', UsuarioController.create);

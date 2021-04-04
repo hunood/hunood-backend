@@ -14,5 +14,7 @@
   "erro-interno": "Erro interno: {{message}}",
   "erro-param-invalido": "Parâmetro(s) inválido(s)",
 
-  "falha-email": "Falha ao enviar e-mail."
+  "falha-email": "Falha ao enviar e-mail.",
+  "autenticacao-invalida": "Autenticação inválida.",
+  "codigo-invalido": "Código inválido ou expirado."
 }

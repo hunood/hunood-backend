@@ -16,7 +16,7 @@ interface FeedbackEmail {
 }
 
 export interface Mensagem {
-    to: EmailAddress;
+    to: Partial<EmailAddress>;
     from: EmailAddress;
     subject: string;
     body: string;
@@ -55,7 +55,7 @@ export class Email implements Provedor {
                 address: message.to.email,
             },
             from: {
-                name: message.from.name,
+                name: message.from.name || '',
                 address: message.from.email,
             },
             subject: message.subject,
@@ -67,8 +67,8 @@ export class Email implements Provedor {
         }
 
         return Promise.reject({
-            accepted: [],
-            reject: [message.to.email],
+            enviados: [],
+            rejeitados: [message.to.email],
             message: t('messages:falha-email')
         })
     }
