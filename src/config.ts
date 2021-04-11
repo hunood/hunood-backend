@@ -24,9 +24,9 @@ export const config: Config = {
     email: {
         user: process.env.EMAIL_USER,
         password: process.env.EMAIL_PASSWORD,
-        service: process.env.EMAIL_SERVICE,
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true
+        service: process.env.EMAIL_SERVICE || '',
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT),
+        secure: false
     }
 };

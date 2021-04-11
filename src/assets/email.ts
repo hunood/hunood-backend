@@ -31,16 +31,23 @@ export class Email implements Provedor {
     private transporter: Mail;
 
     constructor() {
-        this.transporter = nodemailer.createTransport(smtpTransport({
-            service: config.email.service.toString(),
-            host: config.email.host,
-            port: config.email.user,
-            secure: config.email.secure,
-            auth: {
-                user: config.email.user.toString(),
-                pass: config.email.password.toString()
+
+        this.transporter = nodemailer.createTransport(smtpTransport(
+            {
+                host: "smtp.titan.email",
+                port: config.email.port,
+                secure: config.email.secure,
+                service: config.email.service,
+                auth: {
+                    user: config.email.user,
+                    pass: config.email.password
+                },
+                tls: {
+                    rejectUnauthorized: false
+                },
+                pool: true
             }
-        }));
+        ));
     }
 
     static getInstance(): Email {
