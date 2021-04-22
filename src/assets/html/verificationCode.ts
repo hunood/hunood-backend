@@ -167,13 +167,13 @@ export const getHTMLVerificationCode = (code: string) => {
                             <tr>
                                 <td bgcolor="#ffffff" align="left"
                                     style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 1em; font-weight: 400; line-height: 25px;">
-                                    <p style="margin: 0;"><a href="${config.baseUrl}" target="_blank" style="color: #FF5100;">${config.baseUrl}</a></p>
+                                    <!-- <p style="margin: 0;"><a href="${config.baseUrl}" target="_blank" style="color: #FF5100;">${config.baseUrl}</a></p> -->
                                 </td>
                             </tr>
                             <tr>
                                 <td bgcolor="#ffffff" align="left"
                                     style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 1em; font-weight: 400; line-height: 25px;">
-                                    <p style="margin: 0;">Caso tenha problemas, nos envie um e-mail para ${config.email.user}.</p>
+                                    <p style="margin: 0;">Caso tenha problemas, nos envie um e-mail para <a href="mailto:${config.email.user}" style="color: #FF5100;">${config.email.user}</a>.</p>
                                 </td>
                             </tr>
                             <tr>

@@ -101,13 +101,11 @@ const AutenticacaoController = {
 
     // 7000
     async find(req: Request, res: Response) {
-        let { id, email } = req.body;
+        const { idOrEmail } = req.params;
 
         try {
-            const refreshToken = req.header('Refresh-Authorization');
-            console.log(refreshToken)
-            if (!uuidValidate(id) && typeof email === 'string') id = '00000000-0000-0000-0000-000000000000';
-            if (uuidValidate(id) && typeof email !== 'string') email = '';
+            const id = uuidValidate(idOrEmail) ? idOrEmail : '00000000-0000-0000-0000-000000000000';
+            const email = !uuidValidate(idOrEmail) ? idOrEmail : '';
 
             const autenticacao = await Autenticacao.findOne({ where: { [Op.or]: [{ id }, { email }] } });
 
@@ -115,10 +113,31 @@ const AutenticacaoController = {
                 return res.status(StatusCodes.NOT_FOUND).json(error('AUTE7001', t('codes:AUTE7001')));
             }
 
-            return res.status(StatusCodes.OK).json(autenticacao);
+            return res.status(StatusCodes.OK).json({ exist: true });
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE7002', t('messages:erro-interno', { message: err?.message })));
+        }
+    },
+
+    // 8000
+    async updateEmail(req: Request, res: Response) {
+        const { email, novo_email } = req.body;
+
+        try {
+            const autenticacao = await Autenticacao.findOne({ where: { email } });
+
+            if (!autenticacao) {
+                return res.status(StatusCodes.NOT_FOUND).json(error('AUTE8001', t('codes:AUTE8001')));
+            }
+
+            autenticacao.email = novo_email;
+            autenticacao.save();
+
+            return res.status(StatusCodes.OK).json(autenticacao);
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE8002', t('messages:erro-interno', { message: err?.message })));
         }
     }
 }

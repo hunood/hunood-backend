@@ -31,11 +31,11 @@ const UsuarioController = {
     },
 
     async find(req: Request, res: Response) {
-        let { id, cpf } = req.body;
+        const { idOrCpf } = req.params;
 
         try {
-            if (!uuidValidate(id) && typeof cpf === 'string') id = '00000000-0000-0000-0000-000000000000';
-            if (uuidValidate(id) && typeof cpf !== 'string') cpf = '';
+            const id = uuidValidate(idOrCpf) ? idOrCpf : '00000000-0000-0000-0000-000000000000';
+            const cpf = !uuidValidate(idOrCpf) ? idOrCpf : '';
 
             const usuario = await Usuario.findOne({ where: { [Op.or]: [{ id }, { cpf }] } });
 

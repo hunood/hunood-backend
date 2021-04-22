@@ -28,6 +28,8 @@
   "ONBO4001": "Parâmetro não enviado.",
   "ONBO4002": "Autenticação inválida.",
   "ONBO4003": "Código inválido.",
+  "AUTE7001": "Autenticação não encontrada.",
+  "AUTE8001": "Autenticação não encontrada.",
 
   "CODP1001": "Código postal não encontrado.",
   "CODP1002": "Requisição inválida.",

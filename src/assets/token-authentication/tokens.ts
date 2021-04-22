@@ -94,7 +94,7 @@ async function invalidaTokenEmail(id: string, allowlist: typeof allowlistRefresh
 export default {
   access: {
     nome: 'Access token',
-    expiracao: [25, 'minutes'],
+    expiracao: [30, 'minutes'],
     lista: blocklistAccessToken,
     cria(id: string) {
       return criaTokenJWT(id, this.expiracao);
