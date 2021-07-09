@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { BaseRoute } from './typing/enums';
 import { status } from './assets/status-codes';
 import { routerDev } from './assets/router-dev';
+import { appVersion } from './assets/html/appVersion';
 import autenticacao from './assets/token-authentication/middlewares-autenticacao';
 
 import {
@@ -18,6 +19,7 @@ router.use(status);
 router.use(routerDev);
 
 // Hunood
+router.get(BaseRoute.version, (_, res) => res.send(appVersion()));
 
 // Authentication
 router.post(BaseRoute.authentication, AutenticacaoController.authenticate);

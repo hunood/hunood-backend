@@ -1,4 +1,5 @@
 enum BaseRoute {
+    version = '/',
     authentication = '/authentication',
     business = '/business',
     onboarding = '/onboarding',
