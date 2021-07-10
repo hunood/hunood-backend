@@ -2,20 +2,27 @@ import { Config } from "./typing/interfaces";
 import { Languages } from "./typing/enums";
 import dbconfig from "./config.database";
 
+const environment = process.env.ENVIRONMENT === 'production' ? 'production' : 'development';
 const REDIS_URL = process.env.REDISCLOUD_URL.split(':');
 
 export const config: Config = {
-    environment: process.env.ENVIRONMENT === 'production' ? 'production' : 'development',
+    environment,
     language: Languages.portuguese_br,
     appName: 'Hunood Backend',
     baseUrl: process.env.BASEURL || 'http://localhost:3001/',
     port: Number(process.env.PORT) || 3001,
     database: dbconfig,
-    redis: {
-        password: REDIS_URL[2].split('@')[0],
-        host: REDIS_URL[2].split('@')[1],
-        port: Number(REDIS_URL[3].split('/')[0]),
-    },
+    redis: environment === 'development'
+        ? {
+            password: '',
+            host: '127.0.0.1',
+            port: 6379,
+        }
+        : {
+            password: REDIS_URL[2].split('@')[0],
+            host: REDIS_URL[2].split('@')[1],
+            port: Number(REDIS_URL[3].split('/')[0]),
+        },
     auth: {
         expiresIn: Number(process.env.JWT_EXPIRES_IN),
         salt: Number(process.env.JWT_SALT),
