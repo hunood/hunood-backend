@@ -37,8 +37,8 @@ const status = (_: Request, res: Response, next: NextFunction) => {
             delete obj?.dataValues?.senha;
         }
 
-        if (obj?.dataValues) obj.dataValues = Util.recursiveObjectTo(obj.dataValues, Util.camelToSnakeCase);
-        else obj = Util.recursiveObjectTo(obj, Util.camelToSnakeCase);
+        if (obj?.dataValues) obj.dataValues = Util.recursiveObjectTo(obj.dataValues, Util.snakeToCamelCase);
+        else obj = Util.recursiveObjectTo(obj, Util.snakeToCamelCase);
 
         const keysOfObj = Object.keys(obj);
 
