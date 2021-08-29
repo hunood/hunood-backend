@@ -17,8 +17,8 @@ app.use(cors({
 app.use(helmet());
 app.use(express.json());
 
-app.use((req, _, next) => { 
-    req.body = Util.attributesCamelToSnakeCase<any>(req.body);
+app.use((req, _, next) => {
+    req.body = Util.recursiveObjectTo(req.body, Util.camelToSnakeCase);
     next()
 })
 
