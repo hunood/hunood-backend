@@ -4,6 +4,7 @@ import { error } from '../assets/status-codes';
 import { t } from '../i18n';
 import { v4 as uuidv4 } from 'uuid';
 import { Associado, Autenticacao, Empresa, Usuario } from '../models';
+import { Enums } from '../typing';
 import { Email } from '../assets/email';
 import { config } from '../config';
 import { getHTMLVerificationCode } from '../assets/html/verificationCode';
@@ -57,7 +58,7 @@ const OnboardingController = {
                 await Associado.create({
                     id_autenticacao: autenticacao.id,
                     id_empresa: nova_empresa.id,
-                    usuario_primario: true
+                    tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
                 });
 
                 autenticacao.etapa_onboarding = 2;
