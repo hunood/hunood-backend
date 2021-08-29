@@ -2515,7 +2515,7 @@
       <Height Valor="51"/>
       <Fonte default="-1"/>
       <Atributos>
-        <Atributo nome="usuario_primario" id="343">
+        <Atributo nome="tipo_usuario" id="343">
           <Left Valor="212"/>
           <Top Valor="688"/>
           <Width Valor="106"/>

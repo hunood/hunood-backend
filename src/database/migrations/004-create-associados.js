@@ -19,8 +19,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      usuario_primario: {
-        type: Sequelize.BOOLEAN,
+      tipo_usuario: {
+        type: Sequelize.ENUM(['Administrador', 'Colaborador']),
         allowNull: false
       },
       created_at: { 

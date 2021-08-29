@@ -4,7 +4,7 @@ import { connection } from '../database';
 class Associado extends Model {
     public id_autenticacao!: string;
     public id_empresa!: string;
-    public usuario_primario!: boolean;
+    public tipo_usuario!: boolean;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
@@ -19,7 +19,7 @@ Associado.init(
             type: Sequelize.UUID,
             primaryKey: true
         },
-        usuario_primario: Sequelize.BOOLEAN
+        tipo_usuario: Sequelize.ENUM(...["ADMINISTRADOR", "COLABORADOR"])
     },
     {
         sequelize: connection,

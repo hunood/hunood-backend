@@ -13,7 +13,13 @@ enum Languages {
     spanish = 'es'
 }
 
+enum TipoUsuario {
+    ADMINISTRADOR = 'Administrador',
+    COLABORADOR = 'Colaborador'
+}
+
 export {
     Languages,
-    BaseRoute
+    BaseRoute,
+    TipoUsuario
 }
