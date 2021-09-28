@@ -19,25 +19,25 @@ const OnboardingController = {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1001', t('codes:ONBO1001')));
             }
 
-            const usuario = await Usuario.findOne({ where: { cpf: req.body.cpf } })
+            const existeCpfCadastrado = await Usuario.findOne({ where: { cpf: req.body.cpf } });
 
-            if (usuario) {
+            if (existeCpfCadastrado) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1002', t('codes:ONBO1002')));
             }
 
-            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body, id_autenticacao: autenticacao.id });
+            const usuario = await Usuario.create({ id: uuidv4(), ...req.body });
 
-            autenticacao.etapa_onboarding = 1;
+            autenticacao.etapa_onboarding = Enums.EtapaOnboarding.CADASTRO_EMPRESA;
+            autenticacao.id_usuario = usuario.id;
             autenticacao.save();
 
-            return res.status(StatusCodes.OK).json(novo_usuario);
-
+            return res.status(StatusCodes.OK).json(usuario);
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO1003', t('messages:erro-interno', { message: err?.message })));
         };
     },
-
+    
     async business(req: Request, res: Response) {
         try {
             const autenticacao = (req as any)?.auth as Autenticacao;
@@ -61,7 +61,7 @@ const OnboardingController = {
                     tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
                 });
 
-                autenticacao.etapa_onboarding = 2;
+                autenticacao.etapa_onboarding = Enums.EtapaOnboarding.VERIFICACAO_CODIGO_EMAIL;
                 autenticacao.save();
 
                 return res.status(StatusCodes.OK).json(nova_empresa);
@@ -128,7 +128,7 @@ const OnboardingController = {
             }
 
             autenticacao.email_valido = true;
-            autenticacao.etapa_onboarding = 3;
+            autenticacao.etapa_onboarding = Enums.EtapaOnboarding.COMPLETO;
             autenticacao.save();
 
             await tokens.email.invalida(autenticacao.id);

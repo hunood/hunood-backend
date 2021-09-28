@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
+      id_usuario: {
+        type: Sequelize.UUID,
+        primaryKey: false,
+        allowNull: true,
+        references: { model: 'usuarios', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION'
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false

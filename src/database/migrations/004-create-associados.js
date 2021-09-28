@@ -20,7 +20,7 @@ module.exports = {
         onDelete: 'NO ACTION'
       },
       tipo_usuario: {
-        type: Sequelize.ENUM(['Administrador', 'Colaborador']),
+        type: Sequelize.ENUM(['ADMINISTRADOR', 'COLABORADOR']),
         allowNull: false
       },
       created_at: { 

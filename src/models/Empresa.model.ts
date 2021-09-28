@@ -3,8 +3,8 @@ import { connection } from '../database';
 
 class Empresa extends Model {
     public id!: string;
-    public cnpj: string;
-    public razao_social: string;
+    public cnpj!: string;
+    public razao_social!: string;
     public nome_fantasia!: boolean;
     public cep_logradouro!: string;
     public nome_logradouro!: string;

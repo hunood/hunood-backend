@@ -8,17 +8,10 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      id_autenticacao: {
-        type: Sequelize.UUID,
-        primaryKey: false,
-        allowNull: false,
-        references: { model: 'autenticacoes', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
-      },
       cpf: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       nome: {
         type: Sequelize.STRING,
@@ -37,8 +30,8 @@ module.exports = {
         allowNull: true
       },
       tratar_por: {
-        type: Sequelize.STRING,
-        allowNull: true
+        type: Sequelize.ENUM('ELE', 'ELA'),
+        allowNull: false
       },
       created_at: { 
         type: Sequelize.DATE,

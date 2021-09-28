@@ -16,12 +16,14 @@ class CryptPassword {
         return crypto.randomBytes(24).toString('hex');
     }
 
-    static randomString = (tamanho: number = 8, chars: string = 'A1') => {
+    static randomString = (tamanho: number = 8, chars: string = 'aA1#') => {
         let mask = '';
         if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
         if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         if (chars.indexOf('1') > -1) mask += '0123456789';
-        if (chars.indexOf('#') > -1) mask += '!@#$%&';
+        if (chars.indexOf('#') > -1) mask += '!@#$%&*+';
+        mask.split('').sort(() => 0.5-Math.random()).join('');
+        
         let result = '';
         for (let i = tamanho; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
         return result;

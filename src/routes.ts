@@ -26,7 +26,7 @@ router.post(BaseRoute.authentication, AutenticacaoController.authenticate);
 router.post(BaseRoute.authentication + '/forbid', AutenticacaoController.forbid);
 router.post(BaseRoute.authentication + '/create', AutenticacaoController.create);
 router.post(BaseRoute.authentication + '/refresh', [autenticacao.refresh], AutenticacaoController.refresh);
-router.get(BaseRoute.authentication + '/find/:idOrEmail', [autenticacao.bearer], AutenticacaoController.find);
+router.get(BaseRoute.authentication + '/exists/:id_or_email', [autenticacao.bearer], AutenticacaoController.exists);
 router.post(BaseRoute.authentication + '/update-email', [autenticacao.bearer], AutenticacaoController.updateEmail);
 router.post(BaseRoute.authentication + '/send-code', [autenticacao.bearer], AutenticacaoController.sendEmailCode);
 router.post(BaseRoute.authentication + '/verification-code', [autenticacao.bearer], AutenticacaoController.verificationEmailCode);
@@ -42,7 +42,9 @@ router.post(BaseRoute.onboarding + '/verification-code', [autenticacao.bearer], 
 
 // User
 router.post(BaseRoute.user + '/create', [autenticacao.bearer], UsuarioController.create);
-router.get(BaseRoute.user + '/find/:idOrCpf', [autenticacao.bearer], UsuarioController.find);
+router.post(BaseRoute.user + '/create-and-associate', [autenticacao.bearer], UsuarioController.createAndAssociate);
+router.post(BaseRoute.user + '/find', [autenticacao.bearer], UsuarioController.find);
+router.post(BaseRoute.user + '/find/verify-association', [autenticacao.bearer], UsuarioController.verifyAssociation);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);

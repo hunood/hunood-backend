@@ -1,4 +1,4 @@
-import { AutenticacaoController } from './Autenticacao.controller';
+import { AutenticacaoController } from './Autenticacacao.controller';
 import { EmpresaController } from './Empresa.controller';
 import { OnboardingController } from './Onboarding.controller';
 import { UsuarioController } from './Usuario.controller';
