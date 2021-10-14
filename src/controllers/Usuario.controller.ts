@@ -9,6 +9,7 @@ import { CryptPassword } from '../assets/crypt-password';
 import { Enums } from '../typing';
 
 const UsuarioController = {
+    // 1000
     async create(req: Request, res: Response) {
         try {
             const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
@@ -32,51 +33,7 @@ const UsuarioController = {
         };
     },
 
-    async createAndAssociate(req: Request, res: Response) {
-        try {
-            const [usuario, ehUsuarioNovo] = await Usuario.findOrCreate({
-                where: { cpf: req.body.cpf },
-                defaults: { id: uuidv4(), ...req.body }
-            });
-
-            let autenticacao: Autenticacao;
-
-            if(!ehUsuarioNovo) {    
-                autenticacao = await Autenticacao.findOne({ where: { id_usuario: usuario.id } });
-            }
-            
-            const ehNovoCadastroEmail = autenticacao && autenticacao.email !== req.body.email;
-
-            if (ehUsuarioNovo || ehNovoCadastroEmail) {
-                const senha = 'Simb@1822'; // CryptPassword.randomString();
-                autenticacao = await Autenticacao.create({
-                    id: uuidv4(),
-                    etapa_onboarding: Enums.EtapaOnboarding.ALTERACAO_SENHA_NOVO_USUARIO,
-                    id_usuario: usuario.id,
-                    email_valido: false,
-                    email: req.body.email,
-                    senha: CryptPassword.encrypt(senha)
-                });
-
-                console.log('*************************');
-                console.log('SENHA >', senha);
-                console.log('*************************');
-                // mandar senha por email aqui
-            }
-
-            const associacao = await Associado.create({
-                id_autenticacao: autenticacao.id,
-                id_empresa: req.body.id_empresa,
-                tipo_usuario: req.body.tipo_usuario
-            });
-
-            return res.status(StatusCodes.OK).json(associacao);
-        }
-        catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO1003', t('messages:erro-interno', { message: err?.message })));
-        };
-    },
-
+    // 2000
     async find(req: Request, res: Response) {
         try {
             const { idOuCPf } = req.body;
@@ -100,6 +57,72 @@ const UsuarioController = {
         }
     },
 
+    async findByBusiness(req: Request, res: Response) {
+        try {
+            const { id_empresa = '00000000-0000-0000-0000-000000000000' } = req.body;
+
+            // Associação (id_autenticacao, tipo_usuario)
+            const associacoes = await Associado.findAll({
+                where: { id_empresa }
+            });
+
+            // Autenticacao (id_usuario)
+            const ids_autenticacoes = associacoes.map(associacao => associacao.id_autenticacao);
+
+            const autenticacoes = await Autenticacao.findAll({
+                where: {
+                    id: {
+                        [Op.in]: ids_autenticacoes
+                    }
+                }
+            });
+
+            // Usuarios
+            const ids_usuarios = autenticacoes.map(autenticacao => autenticacao.id_usuario);
+
+            const usuarios = await Usuario.findAll({
+                where: {
+                    id: {
+                        [Op.in]: ids_usuarios
+                    }
+                }
+            });
+
+            const mascararCPF = (cpf: string) => {
+                return `${cpf.substr(0, 3)}.***.***-${cpf.substr(-2)}`
+            };
+
+            const usuarios_ = associacoes.map(ass_ => {
+                const aut_ = autenticacoes.find(autenticacao => autenticacao.id === ass_.id_autenticacao);
+                const usu_ = usuarios.find(usuario => usuario.id === aut_.id_usuario);
+
+                delete (usu_ as any).dataValues.createdAt;
+                delete (usu_ as any).dataValues.updatedAt;
+                usu_.cpf = mascararCPF(usu_.cpf);
+
+                return {
+                    email: aut_.email,
+                    tipo_usuario: ass_.tipo_usuario,
+                    nome_usuario: ass_.nome_usuario,
+                    usuario_ativo: ass_.usuario_ativo,
+                    ultima_atualizacao_associacao: ass_.updatedAt,
+                    ...(usu_ as any).dataValues
+                };
+            })
+
+            // console.log("******");
+            // console.log(abc);
+            // console.log("******");
+            // const usuarios_ = usuarios.map(usuario => (usuario as any).dataValues);
+
+            return res.status(StatusCodes.OK).json({ usuarios: usuarios_ });
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA2002', t('messages:erro-interno', { message: err?.message })));
+        }
+    },
+
+    // 3000
     async verifyAssociation(req: Request, res: Response) {
         try {
             const { cpf, email, id_empresa } = req.body;
@@ -129,6 +152,92 @@ const UsuarioController = {
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA3002', t('messages:erro-interno', { message: err?.message })));
         }
+    },
+
+    // 4000
+    async createAndAssociate(req: Request, res: Response) {
+        try {
+            const [usuario, ehUsuarioNovo] = await Usuario.findOrCreate({
+                where: { cpf: req.body.cpf },
+                defaults: { id: uuidv4(), nome: req.body.nome, ...req.body }
+            });
+
+            let autenticacao: Autenticacao;
+
+            if (!ehUsuarioNovo) {
+                autenticacao = await Autenticacao.findOne({ where: { id_usuario: usuario.id } });
+            }
+
+            const ehNovoCadastroEmail = autenticacao && autenticacao.email !== req.body.email;
+
+            if (ehUsuarioNovo || ehNovoCadastroEmail) {
+                const senha = 'Simb@1822'; // CryptPassword.randomString();
+                autenticacao = await Autenticacao.create({
+                    id: uuidv4(),
+                    etapa_onboarding: Enums.EtapaOnboarding.ALTERACAO_SENHA_NOVO_USUARIO,
+                    id_usuario: usuario.id,
+                    email_valido: false,
+                    email: req.body.email,
+                    senha: CryptPassword.encrypt(senha)
+                });
+
+                console.log('*************************');
+                console.log('SENHA >', senha);
+                console.log('*************************');
+                // mandar senha por email aqui
+            }
+
+            const criarNomeUsuario = (nome: string) => {
+                const split = nome.split(" ");
+
+                if (!nome.length || !split.length) {
+                    return "usuario";
+                }
+
+                if (split.length === 1) {
+                    return split[0].toLowerCase();
+                }
+
+                if (split.length >= 2) {
+                    return split[0].toLowerCase() + "." + split[split.length - 1].toLowerCase();
+                }
+            };
+
+            const nomeUsuario = criarNomeUsuario(usuario.nome);
+
+            const todosNomesSimilares = await Associado.findAll({
+                where: {
+                    id_empresa: req.body.id_empresa,
+                    nome_usuario: {
+                        [Op.startsWith]: nomeUsuario
+                    }
+                }
+            });
+
+            const nomeUsuarioFinal = (associados: Associado[]) => {
+                if(nomeUsuario.split(".").length > 1) {
+                    const qtd = associados.length;
+                    return qtd > 0 ? `${nomeUsuario}${qtd}` : `${nomeUsuario}`;
+                } 
+                else {
+                    const qtd = associados.filter(ass => ass.nome_usuario.split(".").length < 2 ).length;
+                    return qtd > 0 ? `${nomeUsuario}${qtd}` : `${nomeUsuario}`;
+                }
+            };
+
+            const associacao = await Associado.create({
+                id_autenticacao: autenticacao.id,
+                id_empresa: req.body.id_empresa,
+                tipo_usuario: req.body.tipo_usuario,
+                nome_usuario: nomeUsuarioFinal(todosNomesSimilares),
+                usuario_ativo: true,
+            });
+
+            return res.status(StatusCodes.OK).json(associacao);
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO4001', t('messages:erro-interno', { message: err?.message })));
+        };
     }
 };
 

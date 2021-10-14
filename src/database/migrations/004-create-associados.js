@@ -23,11 +23,19 @@ module.exports = {
         type: Sequelize.ENUM(['ADMINISTRADOR', 'COLABORADOR']),
         allowNull: false
       },
-      created_at: { 
-        type: Sequelize.DATE,
-        allowNull: false 
+      nome_usuario: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      updated_at: { 
+      usuario_ativo: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false
       }

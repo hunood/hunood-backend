@@ -44,6 +44,7 @@ router.post(BaseRoute.onboarding + '/verification-code', [autenticacao.bearer], 
 router.post(BaseRoute.user + '/create', [autenticacao.bearer], UsuarioController.create);
 router.post(BaseRoute.user + '/create-and-associate', [autenticacao.bearer], UsuarioController.createAndAssociate);
 router.post(BaseRoute.user + '/find', [autenticacao.bearer], UsuarioController.find);
+router.post(BaseRoute.user + '/findByBusiness', [autenticacao.bearer], UsuarioController.findByBusiness);
 router.post(BaseRoute.user + '/find/verify-association', [autenticacao.bearer], UsuarioController.verifyAssociation);
 
 // CEP

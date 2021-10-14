@@ -58,6 +58,8 @@ const OnboardingController = {
                 await Associado.create({
                     id_autenticacao: autenticacao.id,
                     id_empresa: nova_empresa.id,
+                    nome_usuario: "master",
+                    usuario_ativo: true,
                     tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
                 });
 
