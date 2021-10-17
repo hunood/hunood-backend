@@ -129,12 +129,24 @@ const UsuarioController = {
             const autenticacao = await Autenticacao.findOne({ where: { email } });
             const emailExiste = Boolean(autenticacao);
 
-            const associacaoExiste = cpfExiste && emailExiste && autenticacao.id_usuario === usuario.id;
+            let associacaoEmpresaExiste = false;
+            if (cpfExiste) {
+                const autenticacoes = await Autenticacao.findAll({ where: { id_usuario: usuario.id } });
+                const ids_autenticacoes = autenticacoes.map(aut => aut.id);
 
-            const associado = associacaoExiste && await Associado.findOne({
-                where: { [Op.and]: [{ id_autenticacao: autenticacao.id }, { id_empresa }] }
-            });
-            const associacaoEmpresaExiste = Boolean(associado);
+                const associacoes = await Associado.findAll({
+                    where: {
+                        [Op.and]: [
+                            { id_empresa },
+                            { id_autenticacao: { [Op.in]: ids_autenticacoes } }
+                        ]
+                    }
+                });
+
+                associacaoEmpresaExiste = Boolean(associacoes.length);
+            }
+
+            const associacaoExiste = cpfExiste && emailExiste && autenticacao.id_usuario === usuario.id;
 
             return res.status(StatusCodes.OK).json({
                 cpfCadastrado: cpfExiste,
@@ -209,12 +221,12 @@ const UsuarioController = {
             });
 
             const nomeUsuarioFinal = (associados: Associado[]) => {
-                if(nomeUsuario.split(".").length > 1) {
+                if (nomeUsuario.split(".").length > 1) {
                     const qtd = associados.length;
                     return qtd > 0 ? `${nomeUsuario}${qtd}` : `${nomeUsuario}`;
-                } 
+                }
                 else {
-                    const qtd = associados.filter(ass => ass.nome_usuario.split(".").length < 2 ).length;
+                    const qtd = associados.filter(ass => ass.nome_usuario.split(".").length < 2).length;
                     return qtd > 0 ? `${nomeUsuario}${qtd}` : `${nomeUsuario}`;
                 }
             };
