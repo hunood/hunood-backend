@@ -102,18 +102,14 @@ const UsuarioController = {
 
                 return {
                     email: aut_.email,
+                    idAutenticacao: aut_.id,
                     tipo_usuario: ass_.tipo_usuario,
                     nome_usuario: ass_.nome_usuario,
                     usuario_ativo: ass_.usuario_ativo,
                     ultima_atualizacao_associacao: ass_.updatedAt,
                     ...(usu_ as any).dataValues
                 };
-            })
-
-            // console.log("******");
-            // console.log(abc);
-            // console.log("******");
-            // const usuarios_ = usuarios.map(usuario => (usuario as any).dataValues);
+            });
 
             return res.status(StatusCodes.OK).json({ usuarios: usuarios_ });
         }
@@ -139,8 +135,6 @@ const UsuarioController = {
                 where: { [Op.and]: [{ id_autenticacao: autenticacao.id }, { id_empresa }] }
             });
             const associacaoEmpresaExiste = Boolean(associado);
-
-
 
             return res.status(StatusCodes.OK).json({
                 cpfCadastrado: cpfExiste,

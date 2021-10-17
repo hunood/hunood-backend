@@ -10,7 +10,8 @@ import {
     EmpresaController,
     OnboardingController,
     UsuarioController,
-    CEPController
+    CEPController,
+    AssociadoController
 } from './controllers'
 
 const router = Router();
@@ -46,6 +47,9 @@ router.post(BaseRoute.user + '/create-and-associate', [autenticacao.bearer], Usu
 router.post(BaseRoute.user + '/find', [autenticacao.bearer], UsuarioController.find);
 router.post(BaseRoute.user + '/findByBusiness', [autenticacao.bearer], UsuarioController.findByBusiness);
 router.post(BaseRoute.user + '/find/verify-association', [autenticacao.bearer], UsuarioController.verifyAssociation);
+
+// Association
+router.post(BaseRoute.association + '/update', [autenticacao.bearer], AssociadoController.update);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);
