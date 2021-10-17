@@ -71,7 +71,7 @@ const AutenticacaoController = {
             // Associação e Empresa
             let empresas_ = null;
             if (autenticacao.etapa_onboarding > Enums.EtapaOnboarding.CADASTRO_EMPRESA) {
-                const associacoes = (await Associado.findAll({ where: { id_autenticacao: autenticacao.id } }))
+                const associacoes = (await Associado.findAll({ where: { id_autenticacao: autenticacao.id, usuario_ativo: true } }))
                     .map(associacao => {
                         const { id_empresa, tipo_usuario } = associacao;
                         return { id: id_empresa, tipo_usuario: tipo_usuario };
