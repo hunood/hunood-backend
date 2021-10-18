@@ -33,7 +33,8 @@ router.post(BaseRoute.authentication + '/send-code', [autenticacao.bearer], Aute
 router.post(BaseRoute.authentication + '/verification-code', [autenticacao.bearer], AutenticacaoController.verificationEmailCode);
 
 // Business
-router.post(BaseRoute.business + '/find', EmpresaController.find);
+router.post(BaseRoute.business + '/find', [autenticacao.bearer], EmpresaController.find);
+router.post(BaseRoute.business + '/find-by-user/', [autenticacao.bearer], EmpresaController.findByUser);
 
 // Onboarding
 router.post(BaseRoute.onboarding + '/user', [autenticacao.bearer], OnboardingController.user);
@@ -45,7 +46,7 @@ router.post(BaseRoute.onboarding + '/verification-code', [autenticacao.bearer], 
 router.post(BaseRoute.user + '/create', [autenticacao.bearer], UsuarioController.create);
 router.post(BaseRoute.user + '/create-and-associate', [autenticacao.bearer], UsuarioController.createAndAssociate);
 router.post(BaseRoute.user + '/find', [autenticacao.bearer], UsuarioController.find);
-router.post(BaseRoute.user + '/findByBusiness', [autenticacao.bearer], UsuarioController.findByBusiness);
+router.post(BaseRoute.user + '/find-by-business', [autenticacao.bearer], UsuarioController.findByBusiness);
 router.post(BaseRoute.user + '/find/verify-association', [autenticacao.bearer], UsuarioController.verifyAssociation);
 
 // Association
