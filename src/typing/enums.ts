@@ -5,7 +5,8 @@ enum BaseRoute {
     onboarding = '/onboarding',
     user = '/user',
     cep = '/cep',
-    association = '/association'
+    association = '/association',
+    supplier = '/supplier'
 }
 
 enum EtapaOnboarding {

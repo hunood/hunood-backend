@@ -11,7 +11,8 @@ import {
     OnboardingController,
     UsuarioController,
     CEPController,
-    AssociadoController
+    AssociadoController,
+    FornecedorController
 } from './controllers'
 
 const router = Router();
@@ -51,6 +52,9 @@ router.post(BaseRoute.user + '/find/verify-association', [autenticacao.bearer], 
 
 // Association
 router.post(BaseRoute.association + '/update', [autenticacao.bearer], AssociadoController.update);
+
+// Supplier
+router.post(BaseRoute.supplier + '/add', [autenticacao.bearer], FornecedorController.create);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);

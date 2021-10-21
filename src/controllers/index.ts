@@ -4,6 +4,7 @@ import { OnboardingController } from './Onboarding.controller';
 import { UsuarioController } from './Usuario.controller';
 import { CEPController } from './CEP.controller';
 import { AssociadoController } from './Associado.controller';
+import { FornecedorController } from './Fornecedor.controller';
 
 export {
     AutenticacaoController,
@@ -11,5 +12,6 @@ export {
     OnboardingController,
     UsuarioController,
     CEPController,
-    AssociadoController
+    AssociadoController,
+    FornecedorController
 }

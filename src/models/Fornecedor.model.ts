@@ -3,9 +3,10 @@ import { connection } from '../database';
 
 class Fornecedor extends Model {
     public id!: string;
+    public id_empresa!: string;
     public cnpj!: string;
     public razao_social!: string;
-    public nome_fantasia!: boolean;
+    public nome_fantasia!: string;
     public cep_logradouro!: string;
     public nome_logradouro!: string;
     public numero_logradouro!: number;
@@ -23,6 +24,10 @@ Fornecedor.init(
         id: {
             type: Sequelize.UUID,
             primaryKey: true
+        },
+        id_empresa: {
+            type: Sequelize.UUID,
+            primaryKey: false
         },
         cnpj: Sequelize.STRING,
         razao_social: Sequelize.STRING,

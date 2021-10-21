@@ -8,18 +8,10 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      id_tipo_contato: {
-        type: Sequelize.UUID,
-        primaryKey: false,
-        allowNull: false,
-        references: { model: 'tipos-contato', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
-      },
       id_empresa: {
         type: Sequelize.UUID,
         primaryKey: false,
-        allowNull: false,
+        allowNull: true,
         references: { model: 'empresas', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
@@ -27,7 +19,7 @@ module.exports = {
       id_fornecedor: {
         type: Sequelize.UUID,
         primaryKey: false,
-        allowNull: false,
+        allowNull: true,
         references: { model: 'fornecedores', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
@@ -35,20 +27,24 @@ module.exports = {
       id_usuario: {
         type: Sequelize.UUID,
         primaryKey: false,
-        allowNull: false,
+        allowNull: true,
         references: { model: 'usuarios', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      nome: { 
+      tipo_contato: {
+        type: Sequelize.ENUM(['FIXO', 'CELULAR', 'WHATSAPP', 'CELULAR_WHATS']),
+        allowNull: false
+      },
+      contato: {
         type: Sequelize.STRING,
-        allowNull: false 
+        allowNull: false
       },
-      created_at: { 
+      created_at: {
         type: Sequelize.DATE,
-        allowNull: false 
+        allowNull: false
       },
-      updated_at: { 
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false
       }

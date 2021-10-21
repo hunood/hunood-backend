@@ -5,7 +5,7 @@ class Empresa extends Model {
     public id!: string;
     public cnpj!: string;
     public razao_social!: string;
-    public nome_fantasia!: boolean;
+    public nome_fantasia!: string;
     public cep_logradouro!: string;
     public nome_logradouro!: string;
     public numero_logradouro!: number;

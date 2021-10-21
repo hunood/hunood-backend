@@ -7,7 +7,7 @@ class Associado extends Model {
     public id_empresa!: string;
     public nome_usuario!: string;
     public usuario_ativo!: boolean;
-    public tipo_usuario!: TipoUsuario;
+    public tipo_usuario!: keyof TipoUsuario;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
