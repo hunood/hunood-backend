@@ -14,6 +14,7 @@ const AutenticacaoController = {
     // 1000
     async create(req: Request, res: Response) {
         try {
+            const { oauth = false } = req.body;
             const autenticacao = await Autenticacao.findOne({ where: { email: req.body.email } })
 
             if (autenticacao) {
@@ -25,7 +26,7 @@ const AutenticacaoController = {
             const nova_autenticacao = await Autenticacao.create({
                 id: uuidv4(),
                 etapa_onboarding: Enums.EtapaOnboarding.CADASTRO_USUARIO,
-                email_valido: false,
+                email_valido: oauth,
                 ...req.body
             });
 
@@ -39,12 +40,16 @@ const AutenticacaoController = {
     // 2000
     async authenticate(req: Request, res: Response) {
         try {
-            const { email = '', senha } = req.body;
+            const { email = '', senha, oauth } = req.body;
 
             // Autenticação
             const autenticacao: Autenticacao = (req as any).auth || await Autenticacao.findOne({ where: { email } });
 
-            if (!autenticacao || !CryptPassword.validate(senha, autenticacao.senha)) {
+            if (!autenticacao && oauth) {
+                return res.status(StatusCodes.NOT_FOUND).json(error('AUTE2003', t('codes:AUTE2003')));
+            }
+
+            if (!autenticacao || (!oauth && !CryptPassword.validate(senha, autenticacao.senha))) {
                 return res.status(StatusCodes.FORBIDDEN).json(error('AUTE2001', t('codes:AUTE2001')));
             }
 

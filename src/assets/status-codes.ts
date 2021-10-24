@@ -9,15 +9,17 @@ const getResponse = (statusCode: typeof StatusCodes | number, data: any, error?:
     if (error) {
         if (process.env.ENVIRONMENT !== 'production') {
             return {
-                code: error.code,
                 message: error.message,
-                status: `${statusCode} - ${getReasonPhrase(statusCode as unknown as number)}`,
+                code: error.code,
+                status: statusCode,
+                reason: `${statusCode} - ${getReasonPhrase(statusCode as unknown as number)}`,
                 error: true
             }
         }
 
         return {
             message: error.code.split('AUTE')[1] === 'AUTE' ? t('messages:autenticacao-invalida') : error.message,
+            status: statusCode,
             error: true
         }
     }

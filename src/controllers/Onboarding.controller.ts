@@ -63,10 +63,21 @@ const OnboardingController = {
                     tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
                 });
 
-                autenticacao.etapa_onboarding = Enums.EtapaOnboarding.VERIFICACAO_CODIGO_EMAIL;
+                if(autenticacao.email_valido) {
+                    autenticacao.etapa_onboarding = Enums.EtapaOnboarding.COMPLETO;
+                }
+                else {
+                    autenticacao.etapa_onboarding = Enums.EtapaOnboarding.VERIFICACAO_CODIGO_EMAIL;
+                }
                 autenticacao.save();
 
-                return res.status(StatusCodes.OK).json(nova_empresa);
+                const empresa_ = {
+                    id: nova_empresa.id,
+                    nomeFantasia: nova_empresa.nome_fantasia,
+                    tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
+                };
+
+                return res.status(StatusCodes.OK).json(empresa_);
             }
         }
         catch (err) {
