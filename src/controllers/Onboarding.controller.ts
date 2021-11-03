@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';
 import { t } from '../i18n';
 import { v4 as uuidv4 } from 'uuid';
-import { Associado, Autenticacao, Empresa, Usuario } from '../models';
+import { Associado, Autenticacao, Contato, Empresa, Usuario } from '../models';
 import { Enums } from '../typing';
 import { Email } from '../assets/email';
 import { config } from '../config';
@@ -25,19 +25,29 @@ const OnboardingController = {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('ONBO1002', t('codes:ONBO1002')));
             }
 
-            const usuario = await Usuario.create({ id: uuidv4(), ...req.body });
+            const novo_usuario = await Usuario.create({ id: uuidv4(), ...req.body });
+            const { contatos } = req.body;
+
+            if (novo_usuario) {
+                contatos.forEach((contato: Contato) => {
+                    contato.id = uuidv4();
+                    contato.id_usuario = novo_usuario.id;
+                });
+
+                await Contato.bulkCreate(contatos, { returning: true })
+            }
 
             autenticacao.etapa_onboarding = Enums.EtapaOnboarding.CADASTRO_EMPRESA;
-            autenticacao.id_usuario = usuario.id;
+            autenticacao.id_usuario = novo_usuario.id;
             autenticacao.save();
 
-            return res.status(StatusCodes.OK).json(usuario);
+            return res.status(StatusCodes.OK).json(novo_usuario);
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO1003', t('messages:erro-interno', { message: err?.message })));
         };
     },
-    
+
     async business(req: Request, res: Response) {
         try {
             const autenticacao = (req as any)?.auth as Autenticacao;
@@ -63,7 +73,7 @@ const OnboardingController = {
                     tipo_usuario: Enums.TipoUsuario.ADMINISTRADOR
                 });
 
-                if(autenticacao.email_valido) {
+                if (autenticacao.email_valido) {
                     autenticacao.etapa_onboarding = Enums.EtapaOnboarding.COMPLETO;
                 }
                 else {

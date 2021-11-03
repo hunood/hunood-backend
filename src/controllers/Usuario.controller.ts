@@ -126,7 +126,21 @@ const UsuarioController = {
             const usuario = await Usuario.findOne({ where: { cpf } });
             const cpfExiste = Boolean(usuario);
 
-            const autenticacao = await Autenticacao.findOne({ where: { email } });
+            let autenticacao: Autenticacao;
+            const splitedEmail: string[] = email.split("@");
+
+            if (splitedEmail.length > 1 && splitedEmail[1] === "gmail.com") {
+                const likeEmail = `${splitedEmail[0].split(".").join("").split("").join("%")}@${splitedEmail[1]}`;
+                autenticacao = await Autenticacao.findOne({
+                    where: {
+                        email: { [Op.like]: likeEmail }
+                    }
+                });
+            }
+            else {
+                autenticacao = await Autenticacao.findOne({ where: { email } });
+            }
+
             const emailExiste = Boolean(autenticacao);
 
             let associacaoEmpresaExiste = false;
@@ -174,7 +188,13 @@ const UsuarioController = {
                 autenticacao = await Autenticacao.findOne({ where: { id_usuario: usuario.id } });
             }
 
-            const ehNovoCadastroEmail = autenticacao && autenticacao.email !== req.body.email;
+            let ehNovoCadastroEmail: boolean;
+            if(autenticacao.email.substr(-10) === '@gmail.com') {
+                ehNovoCadastroEmail = autenticacao && autenticacao.email?.split('.')?.join('') !== req.body.email?.split('.')?.join('');
+            }
+            else {
+                ehNovoCadastroEmail = autenticacao && autenticacao.email !== req.body.email;
+            }
 
             if (ehUsuarioNovo || ehNovoCadastroEmail) {
                 const senha = 'Simb@1822'; // CryptPassword.randomString();

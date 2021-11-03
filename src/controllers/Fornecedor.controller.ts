@@ -12,21 +12,21 @@ const FornecedorController = {
         try {
             const { contatos, id_empresa } = req.body;
 
-            const novo_forncedor = await Fornecedor.create({ id: uuidv4(), id_empresa, ...req.body });
+            const novo_fornecedor = await Fornecedor.create({ id: uuidv4(), id_empresa, ...req.body });
 
-            if (novo_forncedor) {
+            if (novo_fornecedor) {
                 contatos.forEach((contato: Contato) => {
                     contato.id = uuidv4();
-                    contato.id_fornecedor = novo_forncedor.id;
+                    contato.id_fornecedor = novo_fornecedor.id;
                 });
 
                 await Contato.bulkCreate(contatos, { returning: true })
             }
 
             return res.status(StatusCodes.OK).json({
-                id: novo_forncedor.id,
-                nomeFantasia: novo_forncedor.nome_fantasia,
-                createdAt: novo_forncedor.createdAt
+                id: novo_fornecedor.id,
+                nomeFantasia: novo_fornecedor.nome_fantasia,
+                createdAt: novo_fornecedor.createdAt
             });
         }
         catch (err) {
