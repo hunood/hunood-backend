@@ -12,7 +12,7 @@ const FornecedorController = {
         try {
             const { contatos, id_empresa } = req.body;
 
-            const novo_fornecedor = await Fornecedor.create({ id: uuidv4(), id_empresa, ...req.body });
+            const novo_fornecedor = await Fornecedor.create({ id: uuidv4(), ...req.body });
 
             if (novo_fornecedor) {
                 contatos.forEach((contato: Contato) => {
@@ -32,6 +32,26 @@ const FornecedorController = {
         catch (err) {
             return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
         };
+    },
+
+    async findByBusiness(req: Request, res: Response) {
+        try {
+            const { id_empresa } = req.body;
+
+            const fornecedores = await Fornecedor.findAll({ where: { id_empresa } });
+            
+            const fornecedores_ = fornecedores.map(forn => {
+                delete (forn as any).dataValues.id;
+                return (forn as any).dataValues;
+            });
+
+            console.log(fornecedores_);
+
+            return res.status(StatusCodes.OK).json({fornecedores: fornecedores_});
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('EMPR1002', t('messages:erro-interno', { message: err?.message })));
+        }
     }
 }
 

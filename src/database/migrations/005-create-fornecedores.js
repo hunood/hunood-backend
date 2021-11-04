@@ -18,11 +18,11 @@ module.exports = {
       },
       cnpj: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       razao_social: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       nome_fantasia: {
         type: Sequelize.STRING,
@@ -42,7 +42,7 @@ module.exports = {
       },
       complemento_logradouro: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       bairro_logradouro: {
         type: Sequelize.STRING,
@@ -58,7 +58,7 @@ module.exports = {
       },
       observacoes: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       created_at: { 
         type: Sequelize.DATE,
