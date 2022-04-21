@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,7 +31,7 @@ const FornecedorController = {
             });
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.BAD_REQUEST).json(error('FORN1001', t('messages:erro-interno', { message: err?.message })));
         };
     },
 
@@ -39,18 +40,33 @@ const FornecedorController = {
             const { id_empresa } = req.body;
 
             const fornecedores = await Fornecedor.findAll({ where: { id_empresa } });
-            
-            const fornecedores_ = fornecedores.map(forn => {
-                delete (forn as any).dataValues.id;
-                return (forn as any).dataValues;
+            const ids_fornecedores = fornecedores.map(forn => forn.id);
+
+            const contatos = await Contato.findAll({
+                where: {
+                    id_fornecedor: {
+                        [Op.in]: ids_fornecedores
+                    }
+                }
             });
 
-            console.log(fornecedores_);
+            const fornecedores_ = fornecedores.map(forn => {
+                delete (forn as any).dataValues.id_empresa;
+                const contatosFilter = contatos.filter(contato => contato.id_fornecedor === forn.id)
+                    .map(contato => {
+                        return {
+                            tipo_contato: contato.tipo_contato,
+                            contato: contato.contato.split("_").join("")
+                        };
+                    });
+                return Object.assign((forn as any).dataValues, { contatos: contatosFilter });
+            });
 
-            return res.status(StatusCodes.OK).json({fornecedores: fornecedores_});
+
+            return res.status(StatusCodes.OK).json({ fornecedores: fornecedores_ });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('EMPR1002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN1002', t('messages:erro-interno', { message: err?.message })));
         }
     }
 }
