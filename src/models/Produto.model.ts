@@ -3,9 +3,8 @@ import { connection } from '../database';
 
 class Produto extends Model {
     public id!: string;
-    public id_lote!: string;
-    public id_fornecedor!: string;
-    public id_tipos_produto!: string;
+    public id_empresa!: string;
+    public id_tipos_produto!: number;
     public nome!: string;
     public unidade_medida!: string;
     public quantidade!: number;
@@ -22,9 +21,8 @@ Produto.init(
             type: Sequelize.UUID,
             primaryKey: true
         },
-        id_lote: Sequelize.UUID,
-        id_fornecedor: Sequelize.UUID,
-        id_tipos_produto: Sequelize.UUID,
+        id_empresa: Sequelize.STRING,
+        id_tipos_produto: Sequelize.NUMBER,
         nome: Sequelize.STRING,
         unidade_medida: Sequelize.STRING,
         quantidade: Sequelize.DOUBLE,

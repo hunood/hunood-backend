@@ -12,7 +12,10 @@ import {
     UsuarioController,
     CEPController,
     AssociadoController,
-    FornecedorController
+    FornecedorController,
+    EstoqueController,
+    ProdutoController,
+    LoteController
 } from './controllers'
 
 const router = Router();
@@ -56,6 +59,17 @@ router.post(BaseRoute.association + '/update', [autenticacao.bearer], AssociadoC
 // Supplier
 router.post(BaseRoute.supplier + '/add', [autenticacao.bearer], FornecedorController.create);
 router.post(BaseRoute.supplier + '/find-by-business', [autenticacao.bearer], FornecedorController.findByBusiness);
+
+// Stock
+router.post(BaseRoute.stock + '/find', [autenticacao.bearer], EstoqueController.find);
+
+// Product
+router.post(BaseRoute.product + '/create', [autenticacao.bearer], ProdutoController.create);
+router.post(BaseRoute.product + '/find', [autenticacao.bearer], ProdutoController.find);
+router.post(BaseRoute.product + '/findAll', [autenticacao.bearer], ProdutoController.findAll);
+
+// Batch
+router.post(BaseRoute.batch + '/create', [autenticacao.bearer], LoteController.create);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);

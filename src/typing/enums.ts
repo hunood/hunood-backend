@@ -6,7 +6,10 @@ enum BaseRoute {
     user = '/user',
     cep = '/cep',
     association = '/association',
-    supplier = '/supplier'
+    supplier = '/supplier',
+    stock = '/stock',
+    product = '/product',
+    batch = '/batch'
 }
 
 enum EtapaOnboarding {
@@ -48,6 +51,11 @@ enum TiposTelefone {
     CELULAR_WHATS = "Celular e WhatsApp"
 }
 
+enum TipoAcaoEstoque {
+    ENTRADA = "ENTRADA",
+    SAIDA = "SAIDA"
+}
+
 export {
     Languages,
     EtapaOnboarding,
@@ -55,5 +63,6 @@ export {
     TipoUsuario,
     Generos,
     TratarComo,
-    TiposTelefone
+    TiposTelefone,
+    TipoAcaoEstoque
 }

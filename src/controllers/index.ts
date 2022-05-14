@@ -5,6 +5,9 @@ import { UsuarioController } from './Usuario.controller';
 import { CEPController } from './CEP.controller';
 import { AssociadoController } from './Associado.controller';
 import { FornecedorController } from './Fornecedor.controller';
+import { EstoqueController } from './Estoque.controller';
+import { ProdutoController } from './Produto.controller';
+import { LoteController } from './Lote.controller';
 
 export {
     AutenticacaoController,
@@ -13,5 +16,8 @@ export {
     UsuarioController,
     CEPController,
     AssociadoController,
-    FornecedorController
+    FornecedorController,
+    EstoqueController,
+    ProdutoController,
+    LoteController
 }
