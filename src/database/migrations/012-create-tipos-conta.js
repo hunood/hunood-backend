@@ -4,19 +4,19 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.createTable('tipos-conta', {
       id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false
       },
-      nome: { 
+      nome: {
         type: Sequelize.STRING,
-        allowNull: false 
+        allowNull: false
       },
-      created_at: { 
+      created_at: {
         type: Sequelize.DATE,
-        allowNull: false 
+        allowNull: false
       },
-      updated_at: { 
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false
       }

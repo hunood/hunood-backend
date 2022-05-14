@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    queryInterface.createTable('estoques', {
+    queryInterface.createTable('caixas', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -16,28 +16,28 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      id_autenticacao: {
-        type: Sequelize.UUID,
+      id_tipos_conta: {
+        type: Sequelize.INTEGER,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'autenticacoes', key: 'id' },
+        references: { model: 'tipos-conta', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      id_produto: {
-        type: Sequelize.UUID,
-        primaryKey: false,
-        allowNull: false,
-        references: { model: 'produtos', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
-      },
-      data_entrada: { 
-        type: Sequelize.DATE,
+      valor: { 
+        type: Sequelize.DOUBLE,
         allowNull: false 
       },
-      data_saida: { 
+      data_referencia: { 
         type: Sequelize.DATE,
+        allowNull: true 
+      },
+      eh_entrada: { 
+        type: Sequelize.BOOLEAN,
+        allowNull: true 
+      },
+      observacoes: { 
+        type: Sequelize.STRING,
         allowNull: true 
       },
       created_at: { 
@@ -52,6 +52,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('estoques')
+    return queryInterface.dropTable('caixas')
   }
 };

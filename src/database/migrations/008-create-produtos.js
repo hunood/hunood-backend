@@ -8,24 +8,16 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      id_lote: {
+      id_empresa: {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'lotes', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
-      },
-      id_fornecedor: {
-        type: Sequelize.UUID,
-        primaryKey: false,
-        allowNull: false,
-        references: { model: 'fornecedores', key: 'id' },
+        references: { model: 'empresas', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
       id_tipos_produto: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         primaryKey: false,
         allowNull: false,
         references: { model: 'tipos-produto', key: 'id' },
@@ -50,7 +42,7 @@ module.exports = {
       },
       marca: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       perecivel: {
         type: Sequelize.BOOLEAN,

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    queryInterface.createTable('caixas', {
+    queryInterface.createTable('estoques', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -16,29 +16,37 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      id_tipos_contas: {
+      id_autenticacao: {
         type: Sequelize.UUID,
         primaryKey: false,
         allowNull: false,
-        references: { model: 'tipos-conta', key: 'id' },
+        references: { model: 'autenticacoes', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      valor: { 
-        type: Sequelize.DOUBLE,
-        allowNull: false 
+      id_produto: {
+        type: Sequelize.UUID,
+        primaryKey: false,
+        allowNull: false,
+        references: { model: 'produtos', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION'
       },
-      data_referencia: { 
+      id_lote: {
+        type: Sequelize.UUID,
+        primaryKey: false,
+        allowNull: false,
+        references: { model: 'lotes', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION'
+      },
+      tipo_acao: {
+        type: Sequelize.ENUM(['ENTRADA', 'SAIDA']),
+        allowNull: false
+      },
+      data_acao: { 
         type: Sequelize.DATE,
-        allowNull: true 
-      },
-      eh_entrada: { 
-        type: Sequelize.BOOLEAN,
-        allowNull: true 
-      },
-      observacoes: { 
-        type: Sequelize.STRING,
-        allowNull: true 
+        allowNull: false 
       },
       created_at: { 
         type: Sequelize.DATE,
@@ -52,6 +60,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('caixas')
+    return queryInterface.dropTable('estoques')
   }
 };
