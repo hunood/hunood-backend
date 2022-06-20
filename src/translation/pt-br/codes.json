@@ -40,9 +40,16 @@
   "PROD1001": "Autenticação inválida.",
   "PROD1002": "Empresa não existente ou não informado.",
   "PROD1003": "Lote preenchido incorretamente.",
-  "PROD1004": "Não possível cadastrar a entrada do produto no estoque.",
+  "PROD1004": "Não foi possível cadastrar a entrada do produto no estoque.",
   "PROD2001": "Nenhum produto encontrado.",
   "PROD3001": "Nenhum produto encontrado.",
 
-  "LOTE1001": "Autenticação inválida."
+  "LOTE1001": "Autenticação inválida.",
+
+  "ESTO1001": "Autenticação inválida.",
+  "ESTO1002": "Não foi possível criar o lote.",
+  "ESTO1003": "Lote não encontrado.",
+  "ESTO1004": "Não foi possível criar o estoque.",
+  "ESTO1005": "Produto não encontrado.",
+  "ESTO2001": "Estoque não encontrado"
 }
