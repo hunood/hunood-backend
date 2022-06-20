@@ -31,7 +31,7 @@ const FornecedorController = {
             });
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('FORN1001', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN1001', t('messages:erro-interno', { message: err?.message })));
         };
     },
 

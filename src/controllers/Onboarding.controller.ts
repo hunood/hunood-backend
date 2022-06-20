@@ -147,7 +147,7 @@ const OnboardingController = {
             const isValid = await tokens.email.verifica(autenticacao.id, codigo);
 
             if (!isValid) {
-                return res.status(StatusCodes.BAD_REQUEST).json(error('ONBO4003', t('messages:codigo-invalido')));
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO4003', t('messages:codigo-invalido')));
             }
 
             autenticacao.email_valido = true;

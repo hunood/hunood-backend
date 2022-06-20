@@ -47,7 +47,7 @@ const AutenticacaoController = {
             return res.status(StatusCodes.OK).json({ id: nova_autenticacao.id, createdAt: nova_autenticacao.createdAt });
         }
         catch (err) {
-            return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
         };
     },
 
