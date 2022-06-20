@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';
 import { v4 as uuidv4 } from 'uuid';
 import { t } from '../i18n';
 
-import { Autenticacao, Lote } from '../models';
+import { Lote } from '../models';
 
 const LoteController = {
     // 1000
@@ -28,6 +29,7 @@ const LoteController = {
         };
     },
 
+    // 2000
     async createAction(req: Request, res: Response) {
         try {
             const autenticacao = (req as any).auth;
@@ -45,6 +47,27 @@ const LoteController = {
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('LOTE2002', t('messages:erro-interno', { message: err?.message })));
+        };
+    },
+
+    // 3000
+    async update(req: Request, res: Response) {
+        try {
+            const { id, id_produto, ...dados } = req.body;
+
+            const [sucesso, _] = await Lote.update(
+                { ...dados },
+                { where: { [Op.and]: [{ id }, { id_produto }] } }
+            );
+
+            if(sucesso) {
+                return res.status(StatusCodes.OK).json({id, id_produto, ...dados});
+            }
+
+            throw new Error("Lote não pôde ser atualizado.");
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('LOTE3001', t('messages:erro-interno', { message: err?.message })));
         };
     }
 }

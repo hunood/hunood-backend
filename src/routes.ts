@@ -73,6 +73,7 @@ router.post(BaseRoute.product + '/update', [autenticacao.bearer], ProdutoControl
 // Batch
 router.post(BaseRoute.batch + '/create', [autenticacao.bearer], LoteController.create);
 router.post(BaseRoute.batch + '/create-action', [autenticacao.bearer], LoteController.createAction);
+router.post(BaseRoute.batch + '/update', [autenticacao.bearer], LoteController.update);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);
