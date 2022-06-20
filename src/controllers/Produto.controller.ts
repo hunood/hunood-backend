@@ -149,7 +149,7 @@ const ProdutoController = {
             throw new Error("Produto não pôde ser atualizado.");
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD4001', t('messages:erro-interno', { message: err?.message })));
         };
     }
 }
