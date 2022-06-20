@@ -12,7 +12,7 @@ const UsuarioController = {
     // 1000
     async create(req: Request, res: Response) {
         try {
-            const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
+            const autenticacao = (req as any).auth;
 
             if (!autenticacao) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('USUA1001', t('codes:USUA1001')));
@@ -182,18 +182,18 @@ const UsuarioController = {
                 defaults: { id: uuidv4(), nome: req.body.nome, ...req.body }
             });
 
-            let autenticacao: Autenticacao;
-
-            if (!ehUsuarioNovo) {
-                autenticacao = await Autenticacao.findOne({ where: { id_usuario: usuario.id } });
-            }
-
+            let autenticacao: Autenticacao = await Autenticacao.findOne({ where: { id_usuario: usuario.id } });
             let ehNovoCadastroEmail: boolean;
-            if(autenticacao.email.substr(-10) === '@gmail.com') {
+
+            if (autenticacao === null) {
+                ehNovoCadastroEmail = true;
+                autenticacao = req.body.email;
+            }
+            else if (autenticacao.email.substr(-10) === '@gmail.com') {
                 ehNovoCadastroEmail = autenticacao && autenticacao.email?.split('.')?.join('') !== req.body.email?.split('.')?.join('');
             }
             else {
-                ehNovoCadastroEmail = autenticacao && autenticacao.email !== req.body.email;
+                ehNovoCadastroEmail = autenticacao?.email === req.body.email;
             }
 
             if (ehUsuarioNovo || ehNovoCadastroEmail) {
@@ -262,7 +262,7 @@ const UsuarioController = {
             return res.status(StatusCodes.OK).json(associacao);
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('ONBO4001', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA4001', t('messages:erro-interno', { message: err?.message })));
         };
     }
 };

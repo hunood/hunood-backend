@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import { StatusCodes } from 'http-status-codes';
 import { error } from '../assets/status-codes';
 import { Enums } from '../typing';
@@ -17,7 +18,7 @@ const ProdutoController = {
         try {
             const { id_empresa } = req.body;
 
-            const autenticacao = await Autenticacao.findByPk((req as any)?.auth?.id);
+            const autenticacao = (req as any).auth;
 
             if (!autenticacao) {
                 return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('PROD1001', t('codes:PROD1001')));
@@ -33,6 +34,7 @@ const ProdutoController = {
 
             const novo_produto = await Produto.create({
                 id: uuidv4(),
+                codigo: req.body.codigo,
                 id_empresa,
                 ...req.body
             }, {
@@ -40,21 +42,22 @@ const ProdutoController = {
             });
 
             if (req.body.quantidade > 0) {
-                const { data_fabricacao, data_validade, data_validade_indeterminada = false, observacoes } = req.body;
+                const { data_fabricacao, data_validade, observacoes, codigo_lote, quantidade } = req.body;
                 const lote = await Lote.create({
                     id: uuidv4(),
                     id_empresa,
                     observacoes,
                     data_fabricacao,
-                    data_validade_indeterminada,
-                    data_validade: data_validade_indeterminada ? null : data_validade,
-                    id_produto: novo_produto.id
+                    data_validade,
+                    codigo: codigo_lote,
+                    id_produto: novo_produto.id,
+                    quantidade_produtos:quantidade
                 }, {
                     transaction
                 });
 
                 if (!lote) {
-                    return res.status(StatusCodes.BAD_REQUEST).json(error('PROD1003', t('codes:PROD1003')));
+                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD1003', t('codes:PROD1003')));
                 }
 
                 const estoque = await Estoque.create({
@@ -70,7 +73,7 @@ const ProdutoController = {
                 });
 
                 if (!estoque) {
-                    return res.status(StatusCodes.BAD_REQUEST).json(error('PROD1004', t('codes:PROD1004')));
+                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD1004', t('codes:PROD1004')));
                 }
             }
 
@@ -79,7 +82,7 @@ const ProdutoController = {
         }
         catch (err) {
             await transaction.rollback();
-            return res.status(StatusCodes.BAD_REQUEST).json(error('PROD1005', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD1005', t('messages:erro-interno', { message: err?.message })));
         };
     },
 
@@ -108,12 +111,20 @@ const ProdutoController = {
             const { id_empresa } = req.body;
 
             const produtos = await Produto.findAll({ where: { id_empresa }, raw: true });
+            const ids_produtos = produtos.map(p => p.id);
 
-            if (!produtos) {
-                return res.status(StatusCodes.NOT_FOUND).json(error('PROD3001', t('codes:PROD3001')));
-            }
+            const estoques = await Estoque.findAll({ where: { id_produto: { [Op.in]: ids_produtos } }, raw: true });
+            const lotes = await Lote.findAll({ where: { id_produto: { [Op.in]: ids_produtos } }, raw: true });
 
-            return res.status(StatusCodes.OK).json({ produtos });
+       
+            const pts = ids_produtos.map((id) => {
+                const produto = produtos.find(p => p.id === id);
+                produto["estoques"] = estoques.filter(e => e.id_produto === id);
+                produto["lotes"] = lotes.filter(l => l.id_produto === id).filter(l => Array.isArray(l) !== true);
+                return produto;
+            });
+
+            return res.status(StatusCodes.OK).json({ produtos: pts });
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD3002', t('messages:erro-interno', { message: err?.message })));

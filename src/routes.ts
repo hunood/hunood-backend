@@ -61,6 +61,7 @@ router.post(BaseRoute.supplier + '/add', [autenticacao.bearer], FornecedorContro
 router.post(BaseRoute.supplier + '/find-by-business', [autenticacao.bearer], FornecedorController.findByBusiness);
 
 // Stock
+router.post(BaseRoute.stock + '/create', [autenticacao.bearer], EstoqueController.create);
 router.post(BaseRoute.stock + '/find', [autenticacao.bearer], EstoqueController.find);
 
 // Product
@@ -70,6 +71,7 @@ router.post(BaseRoute.product + '/findAll', [autenticacao.bearer], ProdutoContro
 
 // Batch
 router.post(BaseRoute.batch + '/create', [autenticacao.bearer], LoteController.create);
+router.post(BaseRoute.batch + '/create-action', [autenticacao.bearer], LoteController.createAction);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);
