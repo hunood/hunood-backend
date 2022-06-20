@@ -68,6 +68,7 @@ router.post(BaseRoute.stock + '/find', [autenticacao.bearer], EstoqueController.
 router.post(BaseRoute.product + '/create', [autenticacao.bearer], ProdutoController.create);
 router.post(BaseRoute.product + '/find', [autenticacao.bearer], ProdutoController.find);
 router.post(BaseRoute.product + '/findAll', [autenticacao.bearer], ProdutoController.findAll);
+router.post(BaseRoute.product + '/update', [autenticacao.bearer], ProdutoController.update);
 
 // Batch
 router.post(BaseRoute.batch + '/create', [autenticacao.bearer], LoteController.create);

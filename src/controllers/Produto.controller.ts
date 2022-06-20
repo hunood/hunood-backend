@@ -106,6 +106,7 @@ const ProdutoController = {
         }
     },
 
+    // 3000
     async findAll(req: Request, res: Response) {
         try {
             const { id_empresa } = req.body;
@@ -127,8 +128,29 @@ const ProdutoController = {
             return res.status(StatusCodes.OK).json({ produtos: pts });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD3002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('PROD3001', t('messages:erro-interno', { message: err?.message })));
         }
+    },
+
+    // 4000
+    async update(req: Request, res: Response) {
+        try {
+            const { id, id_empresa, ...dados } = req.body;
+
+            const [sucesso, _] = await Produto.update(
+                { ...dados },
+                { where: { [Op.and]: [{ id }, { id_empresa }] } }
+            );
+
+            if(sucesso) {
+                return res.status(StatusCodes.OK).json({id, id_empresa, ...dados});
+            }
+
+            throw new Error("Produto não pôde ser atualizado.");
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE1002', t('messages:erro-interno', { message: err?.message })));
+        };
     }
 }
 
