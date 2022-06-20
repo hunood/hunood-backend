@@ -16,7 +16,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      id_tipos_produto: {
+      id_tipo_produto: {
         type: Sequelize.INTEGER,
         primaryKey: false,
         allowNull: false,
@@ -44,9 +44,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      perecivel: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+      codigo: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       created_at: { 
         type: Sequelize.DATE,

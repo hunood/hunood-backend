@@ -4,13 +4,13 @@ module.exports = {
     up: async (queryInterface) => queryInterface.bulkInsert('tipos-produto', [
         {
             id: 1,
-            nome: 'Tangível',
+            nome: 'Perecível',
             created_at: new Date(),
             updated_at: new Date()
         },
         {
             id: 2,
-            nome: 'Intangível',
+            nome: 'Imperecível',
             created_at: new Date(),
             updated_at: new Date()
         },

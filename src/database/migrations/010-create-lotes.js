@@ -16,14 +16,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'NO ACTION'
       },
-      identificacao: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      data_validade_indeterminada: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true
-      },
       data_fabricacao: {
         type: Sequelize.DATE,
         allowNull: true
@@ -34,6 +26,14 @@ module.exports = {
       },
       observacoes: {
         type: Sequelize.STRING,
+        allowNull: true
+      },
+      codigo: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      quantidade_produtos: {
+        type: Sequelize.DOUBLE,
         allowNull: true
       },
       created_at: {
