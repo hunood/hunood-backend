@@ -56,6 +56,11 @@ enum TipoAcaoEstoque {
     SAIDA = "SAIDA"
 }
 
+enum TipoProduto {
+    PERECIVEL = "Perecível",
+    IMPERECIVEL = "Imperecível"
+}
+
 export {
     Languages,
     EtapaOnboarding,
@@ -64,5 +69,6 @@ export {
     Generos,
     TratarComo,
     TiposTelefone,
-    TipoAcaoEstoque
+    TipoAcaoEstoque,
+    TipoProduto
 }
