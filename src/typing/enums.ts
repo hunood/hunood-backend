@@ -9,7 +9,8 @@ enum BaseRoute {
     supplier = '/supplier',
     stock = '/stock',
     product = '/product',
-    batch = '/batch'
+    batch = '/batch',
+    metrics = '/metrics'
 }
 
 enum EtapaOnboarding {

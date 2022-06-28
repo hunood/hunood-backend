@@ -15,7 +15,8 @@ import {
     FornecedorController,
     EstoqueController,
     ProdutoController,
-    LoteController
+    LoteController,
+    MetricaController
 } from './controllers'
 
 const router = Router();
@@ -74,6 +75,9 @@ router.post(BaseRoute.product + '/update', [autenticacao.bearer], ProdutoControl
 router.post(BaseRoute.batch + '/create', [autenticacao.bearer], LoteController.create);
 router.post(BaseRoute.batch + '/create-action', [autenticacao.bearer], LoteController.createAction);
 router.post(BaseRoute.batch + '/update', [autenticacao.bearer], LoteController.update);
+
+// Metrics
+router.post(BaseRoute.metrics + '/actions', [autenticacao.bearer], MetricaController.actions);
 
 // CEP
 router.get(BaseRoute.cep + '/find/:cep', [autenticacao.bearer], CEPController.find);

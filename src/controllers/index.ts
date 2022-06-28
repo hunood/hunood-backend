@@ -8,6 +8,7 @@ import { FornecedorController } from './Fornecedor.controller';
 import { EstoqueController } from './Estoque.controller';
 import { ProdutoController } from './Produto.controller';
 import { LoteController } from './Lote.controller';
+import { MetricaController } from './Metrica.controller';
 
 export {
     AutenticacaoController,
@@ -19,5 +20,6 @@ export {
     FornecedorController,
     EstoqueController,
     ProdutoController,
-    LoteController
+    LoteController,
+    MetricaController
 }
