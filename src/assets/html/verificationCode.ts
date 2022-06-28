@@ -123,8 +123,8 @@ export const getHTMLVerificationCode = (code: string) => {
                             <tr>
                                 <td bgcolor="#ffffff" align="center" valign="top"
                                     style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
-                                    <h1 style="font-size: 48px; font-weight: 400; margin: 2;">${'Bem-vindx!'}</h1>
-                                    <img src="${'https://cdn.dribbble.com/users/2009763/screenshots/4333931/prommo01.gif'}" style="display: block; border: 0px; width: 65%" />
+                                    <h1 style="font-size:28px; font-weight:400; margin:10px;text-align: center;letter-spacing: 0px;">Seu novo gerenciador de estoque!</h1>
+                                    <img src="${'https://cdn.dribbble.com/users/1236561/screenshots/18599700/media/9efa4f64738aeecf87aac2764fbd1bbb.png?compress=1&resize=400x300&vertical=top'}" style="display: block; border: 0px; width: 65%" />
                                 </td>
                             </tr>
                         </table>
@@ -168,12 +168,6 @@ export const getHTMLVerificationCode = (code: string) => {
                                 <td bgcolor="#ffffff" align="left"
                                     style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 1em; font-weight: 400; line-height: 25px;">
                                     <!-- <p style="margin: 0;"><a href="${config.baseUrl}" target="_blank" style="color: #FF5100;">${config.baseUrl}</a></p> -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="#ffffff" align="left"
-                                    style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 1em; font-weight: 400; line-height: 25px;">
-                                    <p style="margin: 0;">Caso tenha problemas, nos envie um e-mail para <a href="mailto:${config.email.user}" style="color: #FF5100;">${config.email.user}</a>.</p>
                                 </td>
                             </tr>
                             <tr>

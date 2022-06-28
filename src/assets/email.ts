@@ -34,7 +34,7 @@ export class Email implements Provedor {
 
         this.transporter = nodemailer.createTransport(smtpTransport(
             {
-                host: "smtp.titan.email",
+                host: "smtp.mailgun.org",
                 port: config.email.port,
                 secure: config.email.secure,
                 service: config.email.service,
