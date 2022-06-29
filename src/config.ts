@@ -10,6 +10,7 @@ export const config: Config = {
     language: Languages.portuguese_br,
     appName: "Hunood Backend",
     baseUrl: process.env.BASEURL || "http://localhost:3001/",
+    baseUrlFrontend: process.env.BASEURL_FRONTEND || "http://localhost:3000/",
     port: Number(process.env.PORT) || 3001,
     database: dbconfig,
     redis: {

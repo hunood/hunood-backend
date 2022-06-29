@@ -6,6 +6,7 @@ import { config } from '../../config';
 import { allowlistRefreshToken } from '../redis-manager/allowlist-refresh-token';
 import { blocklistAccessToken } from '../redis-manager/blocklist-access-token';
 import { allowlistEmailToken } from '../redis-manager/allowlist-email-token';
+import { allowlistAlteracaoSenhaToken } from '../redis-manager/allowlist-alteracao-senha-token';
 
 function criaTokenJWT(id: string, [tempoQuantidade, tempoUnidade]) {
   const payload = { id };
@@ -74,6 +75,16 @@ async function invalidaTokenOpaco(token: string, allowlist: typeof allowlistRefr
   await allowlist.deleta(token);
 }
 
+async function criaTokenAlteracaoSenha(email: string, [tempoQuantidade, tempoUnidade], allowlist: typeof allowlistRefreshToken) {
+  const token = jwt.sign({ email }, config.auth.password, {
+    expiresIn: tempoQuantidade + tempoUnidade,
+  });
+  const dataExpiracao = moment().add(tempoQuantidade, tempoUnidade).unix();
+  await allowlist.deleta(email);
+  await allowlist.adiciona(email, token, dataExpiracao);
+  return token;
+}
+
 async function criaTokenEmail(id: string, [tempoQuantidade, tempoUnidade], allowlist: typeof allowlistRefreshToken) {
   const tokenEmail = crypto.randomInt(100001, 999999).toString();
   const dataExpiracao = moment().add(tempoQuantidade, tempoUnidade).unix();
@@ -82,13 +93,13 @@ async function criaTokenEmail(id: string, [tempoQuantidade, tempoUnidade], allow
   return tokenEmail;
 }
 
-async function verificaTokenEmail(id: string, token: string, allowlist: typeof allowlistRefreshToken) {
-  const code = await allowlist.buscaValor(id);
+async function verificaTokenEmailAlteracaoSenha(idOuEmail: string, token: string, allowlist: typeof allowlistRefreshToken) {
+  const code = await allowlist.buscaValor(idOuEmail);
   return code === token;
 }
 
-async function invalidaTokenEmail(id: string, allowlist: typeof allowlistRefreshToken) {
-  await allowlist.deleta(id);
+async function invalidaTokenEmailAlteracaoSenha(idOuEmail: string, allowlist: typeof allowlistRefreshToken) {
+  await allowlist.deleta(idOuEmail);
 }
 
 export default {
@@ -128,10 +139,29 @@ export default {
       return criaTokenEmail(id, this.expiracao, this.lista);
     },
     async verifica(id: string, token: string) {
-      return verificaTokenEmail(id, token, this.lista);
+      return verificaTokenEmailAlteracaoSenha(id, token, this.lista);
     },
     async invalida(id: string) {
-      return invalidaTokenEmail(id, this.lista);
+      return invalidaTokenEmailAlteracaoSenha(id, this.lista);
+    }
+  },
+  alteracaoSenha: {
+    nome: 'AlteracaoSenha token',
+    expiracao: [1, 'h'],
+    lista: allowlistAlteracaoSenhaToken,
+    async cria(email: string) {
+      return criaTokenAlteracaoSenha(email, this.expiracao, this.lista);
+    },
+    async verifica(token: string) {
+      const decoded = jwt.decode(token, { complete: true });
+      const email = (decoded as any || { payload: {} }).payload['email'] || "";
+      const tokenValido = await verificaTokenEmailAlteracaoSenha(email, token, this.lista);
+      return { tokenValido, email };
+    },
+    async invalida(token: string) {
+      const decoded = jwt.decode(token, { complete: true });
+      const email = decoded['email'] || "";
+      return invalidaTokenEmailAlteracaoSenha(email, this.lista);
     }
   }
 };

@@ -7,6 +7,7 @@ interface Config {
     language: typeof Languages | string,
     appName: string,
     baseUrl: string,
+    baseUrlFrontend: string,
     port: number,
     database: Options,
     redis: {

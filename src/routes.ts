@@ -31,11 +31,11 @@ router.get(BaseRoute.version, (_, res) => res.send(appVersion()));
 router.post(BaseRoute.authentication, AutenticacaoController.authenticate);
 router.post(BaseRoute.authentication + '/forbid', AutenticacaoController.forbid);
 router.post(BaseRoute.authentication + '/create', AutenticacaoController.create);
+router.post(BaseRoute.authentication + '/send-code-change-password', AutenticacaoController.sendCodeChangePassword);
+router.post(BaseRoute.authentication + '/change-password', AutenticacaoController.changePassword);
 router.post(BaseRoute.authentication + '/refresh', [autenticacao.refresh], AutenticacaoController.refresh);
 router.get(BaseRoute.authentication + '/exists/:id_or_email', [autenticacao.bearer], AutenticacaoController.exists);
 router.post(BaseRoute.authentication + '/update-email', [autenticacao.bearer], AutenticacaoController.updateEmail);
-router.post(BaseRoute.authentication + '/send-code', [autenticacao.bearer], AutenticacaoController.sendEmailCode);
-router.post(BaseRoute.authentication + '/verification-code', [autenticacao.bearer], AutenticacaoController.verificationEmailCode);
 
 // Business
 router.post(BaseRoute.business + '/find', [autenticacao.bearer], EmpresaController.find);

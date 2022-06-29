@@ -3,9 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 import { CryptPassword } from '../assets/crypt-password';
+import { Email } from '../assets/email';
 import { error } from '../assets/status-codes';
-import tokens from '../assets/token-authentication/tokens';
+import { getHTMLAlChangeterPassword } from '../assets/html/changePassword';
+import { config } from '../config';
 import { t } from '../i18n';
+import tokens from '../assets/token-authentication/tokens'; 
 
 import { Autenticacao, Associado, Usuario, Empresa } from '../models';
 import { Enums } from '../typing';
@@ -179,14 +182,24 @@ const AutenticacaoController = {
         }
     },
 
-    // 5000
-    async sendEmailCode(req: Request, res: Response) {
-        return res.status(StatusCodes.OK).json({ implements: false });
-    },
-
     // 6000
-    async verificationEmailCode(req: Request, res: Response) {
-        return res.status(StatusCodes.OK).json({ implements: false });
+    async updateEmail(req: Request, res: Response) {
+        try {
+            const { email, novo_email } = req.body;
+            const autenticacao = await Autenticacao.findOne({ where: { email } });
+
+            if (!autenticacao) {
+                return res.status(StatusCodes.NOT_FOUND).json(error('AUTE6001', t('codes:AUTE6001')));
+            }
+
+            autenticacao.email = novo_email;
+            autenticacao.save();
+
+            return res.status(StatusCodes.OK).json(autenticacao);
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE6002', t('messages:erro-interno', { message: err?.message })));
+        }
     },
 
     // 7000
@@ -209,23 +222,71 @@ const AutenticacaoController = {
         }
     },
 
-    // 8000
-    async updateEmail(req: Request, res: Response) {
+    // 5000
+    async sendCodeChangePassword(req: Request, res: Response) {
         try {
-            const { email, novo_email } = req.body;
-            const autenticacao = await Autenticacao.findOne({ where: { email } });
+            const { email } = req.body;
 
-            if (!autenticacao) {
-                return res.status(StatusCodes.NOT_FOUND).json(error('AUTE8001', t('codes:AUTE8001')));
+            if (!email) {
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('AUTE5001', t('codes:AUTE5001')));
             }
 
-            autenticacao.email = novo_email;
-            autenticacao.save();
+            const code = await tokens.alteracaoSenha.cria(email);
 
-            return res.status(StatusCodes.OK).json(autenticacao);
+            Email.getInstance()
+                .enviar({
+                    to: { email },
+                    body: getHTMLAlChangeterPassword(code),
+                    subject: t('general:assunto-redefinicao-senha'),
+                    from: {
+                        email: config.email.user,
+                        name: t('general:nome-aplicacao')
+                    }
+                }).then((feedback) => {
+                    return res.status(StatusCodes.OK).json({ feedback });
+                }).catch((feedback) => {
+                    if (feedback.responseCode === 421) {
+                        return res.status(StatusCodes.BAD_REQUEST).json(error('AUTE5002', t('codes:AUTE5002')));
+                    }
+                    return res.status(StatusCodes.BAD_GATEWAY).json(error('AUTE5003', t('codes:AUTE5003')));
+
+                });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE8002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE5004', err?.message));
+        }
+    },
+
+    // 8000
+    async changePassword(req: Request, res: Response) {
+        try {
+            const { token, senha: senha_ } = req.body;
+
+            if (!token || !senha_) {
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('AUTE8001', t('codes:AUTE8001')));
+            }
+
+            const validacao = await tokens.alteracaoSenha.verifica(token);
+
+            if (!validacao.tokenValido) {
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('AUTE8002', t('codes:AUTE8002')));
+            }
+
+            const senha = CryptPassword.encrypt(senha_);
+            const autenticacao = await Autenticacao.findOne({ where: { email: validacao.email } });
+
+            autenticacao.senha = senha;
+            autenticacao.email_valido = true;
+            autenticacao.save()
+                .then(() => {
+                    return res.status(StatusCodes.OK).json({ mensagem: "", sucesso: true });
+                })
+                .catch(() => {
+                    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ mensagem: "", sucesso: false });
+                });
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE8004', err?.message));
         }
     }
 }

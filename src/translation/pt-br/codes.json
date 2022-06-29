@@ -13,8 +13,11 @@
   "AUTE2002": "Usuário não encontrado.",
   "AUTE2003": "Usuário Google não cadastrado.",
   "AUTE3001": "Usuário não encontrado.",
+  "AUTE5001": "E-mail não fornecido.",
+  "AUTE5002": "E-mail inexistente.",
+  "AUTE5003": "Falha ao enviar o e-mail.",
+  "AUTE6001": "Autenticação não encontrada.",
   "AUTE7001": "Autenticação não encontrada.",
-  "AUTE8001": "Autenticação não encontrada.",
 
   "USUA1001": "Autenticação não encontrada.",
   "USUA1002": "Usuário já cadastrado.",
