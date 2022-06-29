@@ -7,6 +7,9 @@ import { Associado, Autenticacao, Usuario } from '../models';
 import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 import { CryptPassword } from '../assets/crypt-password';
 import { Enums } from '../typing';
+import { Email } from '../assets/email';
+import { config } from '../config';
+import { createUserPassword } from '../assets/html/createUserPassword';
 
 const UsuarioController = {
     // 1000
@@ -51,67 +54,6 @@ const UsuarioController = {
             }
 
             return res.status(StatusCodes.OK).json(usuario);
-        }
-        catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA2002', t('messages:erro-interno', { message: err?.message })));
-        }
-    },
-
-    async findByBusiness(req: Request, res: Response) {
-        try {
-            const { id_empresa = '00000000-0000-0000-0000-000000000000' } = req.body;
-
-            // Associação (id_autenticacao, tipo_usuario)
-            const associacoes = await Associado.findAll({
-                where: { id_empresa }
-            });
-
-            // Autenticacao (id_usuario)
-            const ids_autenticacoes = associacoes.map(associacao => associacao.id_autenticacao);
-
-            const autenticacoes = await Autenticacao.findAll({
-                where: {
-                    id: {
-                        [Op.in]: ids_autenticacoes
-                    }
-                }
-            });
-
-            // Usuarios
-            const ids_usuarios = autenticacoes.map(autenticacao => autenticacao.id_usuario);
-
-            const usuarios = await Usuario.findAll({
-                where: {
-                    id: {
-                        [Op.in]: ids_usuarios
-                    }
-                }
-            });
-
-            const mascararCPF = (cpf: string) => {
-                return `${cpf.substr(0, 3)}.***.***-${cpf.substr(-2)}`
-            };
-
-            const usuarios_ = associacoes.map(ass_ => {
-                const aut_ = autenticacoes.find(autenticacao => autenticacao.id === ass_.id_autenticacao);
-                const usu_ = usuarios.find(usuario => usuario.id === aut_.id_usuario);
-
-                delete (usu_ as any).dataValues.createdAt;
-                delete (usu_ as any).dataValues.updatedAt;
-                usu_.cpf = mascararCPF(usu_.cpf);
-
-                return {
-                    email: aut_.email,
-                    idAutenticacao: aut_.id,
-                    tipo_usuario: ass_.tipo_usuario,
-                    nome_usuario: ass_.nome_usuario,
-                    usuario_ativo: ass_.usuario_ativo,
-                    ultima_atualizacao_associacao: ass_.updatedAt,
-                    ...(usu_ as any).dataValues
-                };
-            });
-
-            return res.status(StatusCodes.OK).json({ usuarios: usuarios_ });
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA2002', t('messages:erro-interno', { message: err?.message })));
@@ -170,7 +112,7 @@ const UsuarioController = {
             });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA3002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA3001', t('messages:erro-interno', { message: err?.message })));
         }
     },
 
@@ -197,7 +139,7 @@ const UsuarioController = {
             }
 
             if (ehUsuarioNovo || ehNovoCadastroEmail) {
-                const senha = 'Simb@1822'; // CryptPassword.randomString();
+                const senha = CryptPassword.randomString();
                 autenticacao = await Autenticacao.create({
                     id: uuidv4(),
                     etapa_onboarding: Enums.EtapaOnboarding.ALTERACAO_SENHA_NOVO_USUARIO,
@@ -207,10 +149,24 @@ const UsuarioController = {
                     senha: CryptPassword.encrypt(senha)
                 });
 
-                console.log('*************************');
-                console.log('SENHA >', senha);
-                console.log('*************************');
-                // mandar senha por email aqui
+                Email.getInstance()
+                    .enviar({
+                        to: { email: req.body.email },
+                        body: createUserPassword(senha),
+                        subject: t('general:assunto-redefinicao-senha'),
+                        from: {
+                            email: config.email.user,
+                            name: t('general:nome-aplicacao')
+                        }
+                    }).then((feedback) => {
+                        return res.status(StatusCodes.OK).json({ feedback });
+                    }).catch((feedback) => {
+                        if (feedback.responseCode === 421) {
+                            return res.status(StatusCodes.BAD_REQUEST).json(error('USUA4001', t('codes:USUA4001')));
+                        }
+                        return res.status(StatusCodes.BAD_GATEWAY).json(error('USUA4002', t('codes:USUA4002')));
+
+                    });
             }
 
             const criarNomeUsuario = (nome: string) => {
@@ -262,9 +218,71 @@ const UsuarioController = {
             return res.status(StatusCodes.OK).json(associacao);
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA4001', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA4003', t('messages:erro-interno', { message: err?.message })));
         };
-    }
+    },
+
+    // 5000
+    async findByBusiness(req: Request, res: Response) {
+        try {
+            const { id_empresa = '00000000-0000-0000-0000-000000000000' } = req.body;
+
+            // Associação (id_autenticacao, tipo_usuario)
+            const associacoes = await Associado.findAll({
+                where: { id_empresa }
+            });
+
+            // Autenticacao (id_usuario)
+            const ids_autenticacoes = associacoes.map(associacao => associacao.id_autenticacao);
+
+            const autenticacoes = await Autenticacao.findAll({
+                where: {
+                    id: {
+                        [Op.in]: ids_autenticacoes
+                    }
+                }
+            });
+
+            // Usuarios
+            const ids_usuarios = autenticacoes.map(autenticacao => autenticacao.id_usuario);
+
+            const usuarios = await Usuario.findAll({
+                where: {
+                    id: {
+                        [Op.in]: ids_usuarios
+                    }
+                }
+            });
+
+            const mascararCPF = (cpf: string) => {
+                return `${cpf.substr(0, 3)}.***.***-${cpf.substr(-2)}`
+            };
+
+            const usuarios_ = associacoes.map(ass_ => {
+                const aut_ = autenticacoes.find(autenticacao => autenticacao.id === ass_.id_autenticacao);
+                const usu_ = usuarios.find(usuario => usuario.id === aut_.id_usuario);
+
+                delete (usu_ as any).dataValues.createdAt;
+                delete (usu_ as any).dataValues.updatedAt;
+                usu_.cpf = mascararCPF(usu_.cpf);
+
+                return {
+                    email: aut_.email,
+                    idAutenticacao: aut_.id,
+                    tipo_usuario: ass_.tipo_usuario,
+                    nome_usuario: ass_.nome_usuario,
+                    usuario_ativo: ass_.usuario_ativo,
+                    ultima_atualizacao_associacao: ass_.updatedAt,
+                    ...(usu_ as any).dataValues
+                };
+            });
+
+            return res.status(StatusCodes.OK).json({ usuarios: usuarios_ });
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('USUA5001', t('messages:erro-interno', { message: err?.message })));
+        }
+    },
 };
 
 export { UsuarioController };

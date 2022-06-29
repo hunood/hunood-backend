@@ -22,6 +22,8 @@
   "USUA1001": "Autenticação não encontrada.",
   "USUA1002": "Usuário já cadastrado.",
   "USUA2001": "Usuário não encontrado.",
+  "USUA4001": "E-mail inexistente.",
+  "USUA4002": "Falha ao enviar o e-mail.",
   "USUA7001": "Autenticação não encontrada.",
 
   "EMPR1001": "Empresa não encontrada.",
