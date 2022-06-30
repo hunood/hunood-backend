@@ -19,10 +19,7 @@ module.exports = {
       id_fornecedor: {
         type: Sequelize.UUID,
         primaryKey: false,
-        allowNull: true,
-        references: { model: 'fornecedores', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'NO ACTION'
+        allowNull: true
       },
       id_usuario: {
         type: Sequelize.UUID,

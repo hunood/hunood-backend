@@ -86,7 +86,7 @@ const FornecedorController = {
 
             if (fornecedor && dados.contatos) {
                 await Contato.destroy({ where: { id_fornecedor: fornecedor.id } });
-                
+
                 dados.contatos.forEach((contato: Contato) => {
                     contato.id = uuidv4();
                     contato.id_fornecedor = fornecedor.id;
@@ -103,6 +103,21 @@ const FornecedorController = {
         }
         catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN3001', t('messages:erro-interno', { message: err?.message })));
+        };
+    },
+
+    // 4000
+    async delete(req: Request, res: Response) {
+        try {
+            const { id_empresa, id_fornecedor } = req.body;
+            Contato.destroy({ where: { id_fornecedor }, force: true }).then(async () => {
+
+                await Fornecedor.destroy({ where: { [Op.and]: [{ id: id_fornecedor }, { id_empresa }] }, force: true })
+                return res.status(StatusCodes.OK).json({ sucesso: true })
+            })
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN4001', t('messages:erro-interno', { message: err?.message })));
         };
     }
 }
