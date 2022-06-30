@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+    res.setHeader('Access-Control-Allow-Origin', 'https://hunood-web-psi.vercel.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     req.body = Util.recursiveObjectTo(req.body, Util.camelToSnakeCase);
