@@ -11,8 +11,11 @@ const app = express();
 validarInicializacoes();
 
 app.use(cors({
-    exposedHeaders: ['Authorization', 'Refresh-Authorization']
+    exposedHeaders: ['Authorization', 'Refresh-Authorization'],
+    origin: "https://hunood-web-psi.vercel.app"
 }));
+
+app.options('*', cors());
 
 app.use(helmet());
 app.use(express.json());
