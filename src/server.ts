@@ -12,10 +12,15 @@ validarInicializacoes();
 
 app.use(cors({
     exposedHeaders: ['Authorization', 'Refresh-Authorization'],
-    origin: "https://hunood-web-psi.vercel.app"
+    origin: "*",
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    credentials: true,
 }));
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+}));
+
 app.use(express.json());
 
 app.use((req, res, next) => {
