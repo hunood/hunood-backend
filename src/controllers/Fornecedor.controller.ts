@@ -35,6 +35,7 @@ const FornecedorController = {
         };
     },
 
+    // 2000
     async findByBusiness(req: Request, res: Response) {
         try {
             const { id_empresa } = req.body;
@@ -66,8 +67,43 @@ const FornecedorController = {
             return res.status(StatusCodes.OK).json({ fornecedores: fornecedores_ });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN1002', t('messages:erro-interno', { message: err?.message })));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN2001', t('messages:erro-interno', { message: err?.message })));
         }
+    },
+
+    // 3000
+    async update(req: Request, res: Response) {
+        try {
+            const { id_empresa, ...dadosFornecedor } = req.body;
+            const { dados } = dadosFornecedor;
+
+            const fornecedor = await Fornecedor.findOne({ where: { [Op.and]: [{ id: dados.id }, { id_empresa }] } });
+
+            const [sucesso, _] = await Fornecedor.update(
+                { ...dados },
+                { where: { [Op.and]: [{ id: dados.id }, { id_empresa }] } }
+            );
+
+            if (fornecedor && dados.contatos) {
+                await Contato.destroy({ where: { id_fornecedor: fornecedor.id } });
+                
+                dados.contatos.forEach((contato: Contato) => {
+                    contato.id = uuidv4();
+                    contato.id_fornecedor = fornecedor.id;
+                });
+
+                await Contato.bulkCreate(dados.contatos, { returning: true })
+            }
+
+            if (sucesso) {
+                return res.status(StatusCodes.OK).json({ fornecedor: { id: dados.id, id_empresa, ...dados } });
+            }
+
+            throw new Error("Fornecedor não pôde ser atualizado.");
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('FORN3001', t('messages:erro-interno', { message: err?.message })));
+        };
     }
 }
 

@@ -60,6 +60,7 @@ router.post(BaseRoute.association + '/update', [autenticacao.bearer], AssociadoC
 // Supplier
 router.post(BaseRoute.supplier + '/add', [autenticacao.bearer], FornecedorController.create);
 router.post(BaseRoute.supplier + '/find-by-business', [autenticacao.bearer], FornecedorController.findByBusiness);
+router.post(BaseRoute.supplier + '/update', [autenticacao.bearer], FornecedorController.update);
 
 // Stock
 router.post(BaseRoute.stock + '/create', [autenticacao.bearer], EstoqueController.create);
