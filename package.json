@@ -1,7 +1,7 @@
 {
   "name": "hunood-backend",
   "version": "1.0.0",
-  "description": "Projeto backend do sistema de gerenciamento de estabelecimentos gastronômicos Hunood",
+  "description": "Projeto backend do sistema de gerenciamento de estoques Hunood",
   "main": "server.js",
   "license": "MIT",
   "private": true,
