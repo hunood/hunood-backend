@@ -18,6 +18,9 @@
   "AUTE5003": "Falha ao enviar o e-mail.",
   "AUTE6001": "Autenticação não encontrada.",
   "AUTE7001": "Autenticação não encontrada.",
+  "AUTE8001": "Requisição inválida.",
+  "AUTE8002": "Token inválido.",
+  "AUTE9001": "Requisição inválida.",
 
   "USUA1001": "Autenticação não encontrada.",
   "USUA1002": "Usuário já cadastrado.",

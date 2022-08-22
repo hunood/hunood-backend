@@ -286,7 +286,34 @@ const AutenticacaoController = {
                 });
         }
         catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE8004', err?.message));
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE8003', err?.message));
+        }
+    },
+
+    // 9000
+    async changePasswordNewUser(req: Request, res: Response) {
+        try {
+            const { email, senha: senha_ } = req.body;
+
+            if (!email || !senha_) {
+                return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(error('AUTE9001', t('codes:AUTE9001')));
+            }
+
+            const senha = CryptPassword.encrypt(senha_);
+            const autenticacao = await Autenticacao.findOne({ where: { email } });
+
+            autenticacao.senha = senha;
+            autenticacao.email_valido = true;
+            autenticacao.save()
+                .then(() => {
+                    return res.status(StatusCodes.OK).json({ mensagem: "", sucesso: true });
+                })
+                .catch(() => {
+                    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ mensagem: "", sucesso: false });
+                });
+        }
+        catch (err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error('AUTE9002', err?.message));
         }
     }
 }
