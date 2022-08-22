@@ -12,6 +12,7 @@ import tokens from '../assets/token-authentication/tokens';
 
 import { Autenticacao, Associado, Usuario, Empresa } from '../models';
 import { Enums } from '../typing';
+import { EtapaOnboarding } from '../typing/enums';
 
 const AutenticacaoController = {
     // 1000
@@ -304,6 +305,7 @@ const AutenticacaoController = {
 
             autenticacao.senha = senha;
             autenticacao.email_valido = true;
+            autenticacao.etapa_onboarding = EtapaOnboarding.COMPLETO;
             autenticacao.save()
                 .then(() => {
                     return res.status(StatusCodes.OK).json({ mensagem: "", sucesso: true });
