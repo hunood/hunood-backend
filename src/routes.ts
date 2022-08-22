@@ -32,7 +32,7 @@ router.post(BaseRoute.authentication, AutenticacaoController.authenticate);
 router.post(BaseRoute.authentication + '/forbid', AutenticacaoController.forbid);
 router.post(BaseRoute.authentication + '/create', AutenticacaoController.create);
 router.post(BaseRoute.authentication + '/send-code-change-password', AutenticacaoController.sendCodeChangePassword);
-router.post(BaseRoute.authentication + '/change-password-new-user', AutenticacaoController.changePasswordNewUser);
+router.post(BaseRoute.authentication + '/change-password-new-user', [autenticacao.bearer], AutenticacaoController.changePasswordNewUser);
 router.post(BaseRoute.authentication + '/change-password', AutenticacaoController.changePassword);
 router.post(BaseRoute.authentication + '/refresh', [autenticacao.refresh], AutenticacaoController.refresh);
 router.get(BaseRoute.authentication + '/exists/:id_or_email', [autenticacao.bearer], AutenticacaoController.exists);
