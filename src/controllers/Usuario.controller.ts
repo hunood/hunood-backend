@@ -153,7 +153,7 @@ const UsuarioController = {
                     .enviar({
                         to: { email: req.body.email },
                         body: createUserPassword(senha),
-                        subject: t('general:assunto-redefinicao-senha'),
+                        subject: t('general:assunto-senha-acesso'),
                         from: {
                             email: config.email.user,
                             name: t('general:nome-aplicacao')

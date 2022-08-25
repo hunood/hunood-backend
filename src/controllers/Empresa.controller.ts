@@ -33,8 +33,8 @@ const EmpresaController = {
 
             const associacoes = (await Associado.findAll({ where: { id_autenticacao, usuario_ativo: true } }))
                 .map(associacao => {
-                    const { id_empresa, tipo_usuario } = associacao;
-                    return { id: id_empresa, tipo_usuario: tipo_usuario };
+                    const { id_empresa, tipo_usuario, nome_usuario } = associacao;
+                    return { id: id_empresa, tipo_usuario, nome_usuario };
                 });
 
 
